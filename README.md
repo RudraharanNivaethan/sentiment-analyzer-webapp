@@ -63,7 +63,7 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
 - **NLTK (VADER)** – Sentiment analysis
 - **TextBlob** – Subjectivity analysis
 - **Matplotlib** – Data visualization
-- **PHP & CSS** – Frontend pages 
+- **HTML & CSS** – Frontend pages 
 
 ---
 
