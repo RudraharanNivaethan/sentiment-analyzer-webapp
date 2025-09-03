@@ -1,0 +1,5 @@
+Flask
+nltk
+matplotlib
+textblob
+requests
