@@ -225,6 +225,7 @@ li strong {
     </style>
 </head>
 <body>
+    {% include 'header.html' %}  <!-- Reusable header -->
      <div class="container">
  <h1>Welcome to Sentiment Analysis App</h1>
  <p>
@@ -240,9 +241,9 @@ It uses Natural Language Processing (NLP) techniques to measure:
 (very subjective), showing how much the text expresses opinion vs fact.</li>
  <li><strong>Sentiment Breakdown:</strong> Percentage of positive, neutral, and negative words in the text.</li>
  </ul>
- <a href="app.html" class="cta">Start Sentiment Analysis</a>
- <a href="about.html" class="nav-link">Learn More About This App</a>
+ <a href="{{ url_for('app_page') }}" class="cta">Start Sentiment Analysis</a>
+ <a href="{{ url_for('about') }}" class="nav-link">Learn More About This App</a>
  </div>
-
+{% include 'footer.html' %}  <!-- Reusable footer -->
 </body>
 </html>

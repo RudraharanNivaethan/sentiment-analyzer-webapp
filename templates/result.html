@@ -360,6 +360,7 @@ p:nth-of-type(7) { --i: 6; animation-delay: 0.8s; }
     </style>
 </head>
 <body>
+    {% include 'header.html' %}  <!-- Reusable header -->
      <div class="card">
  <h1>Sentiment Analysis Result</h1>
  <p><strong>Text:</strong> {{ text }}</p>
@@ -369,10 +370,12 @@ p:nth-of-type(7) { --i: 6; animation-delay: 0.8s; }
  <p><strong>Neutral:</strong> {{ neu }}</p>
  <p><strong>Negative:</strong> {{ neg }}</p>
  <p><strong>Subjectivity:</strong> {{ subjectivity }}</p>
+ <p><strong>Subjective / Objective:</strong> {{ subjectivity_class }}</p>
  <!--Graph-->
- <img src="{{ url_for('static', filename=graph) }}" alt="Sentiment Graph">
+ <img src="data:image/png;base64,{{ chart_url }}" alt="Sentiment Graph">
  <br>
- <a href="app.html">Analyze Another Text</a>
+ <a href="{{ url_for('app_page') }}">Analyze Another Text</a>
+ {% include 'footer.html' %}  <!-- Reusable footer -->
  </div>
 </body>
 </html>

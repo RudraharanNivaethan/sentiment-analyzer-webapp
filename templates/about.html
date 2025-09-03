@@ -270,6 +270,7 @@
     </style>
 </head>
 <body>
+    {% include 'header.html' %}  <!-- Reusable header -->
     <div class="container">
         <h1>About This Application</h1>
         
@@ -285,7 +286,8 @@
         
         <p>Visual representation is provided using <span class="highlight">Matplotlib</span>, so you can see how much of your text is positive, neutral, or negative.</p>
         
-        <a href="home.html" class="btn">Go to Home</a>
+        <a href="{{url_for('home')}}" class="btn">Go to Home</a>
+        {% include 'footer.html' %}  <!-- Reusable footer -->
     </div>
 </body>
 </html>

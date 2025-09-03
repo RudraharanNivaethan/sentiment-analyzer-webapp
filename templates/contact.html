@@ -318,6 +318,7 @@
     </style>
 </head>
 <body>
+    {% include 'header.html' %}  <!-- Reusable header -->
     <div class="container">
         <h1>Meet Our Team</h1>
         <p class="subtitle">The brilliant minds behind the Sentiment Analysis Application</p>
@@ -441,7 +442,8 @@
             </div>
         </div>
         
-        <a href="home.html" class="back-home">← Back to Home</a>
+        <a href="{{url_for('home')}}" class="back-home">← Back to Home</a>
     </div>
+    {% include 'footer.html' %}  <!-- Reusable footer -->
 </body>
 </html>

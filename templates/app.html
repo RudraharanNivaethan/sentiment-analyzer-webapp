@@ -258,11 +258,14 @@ textarea:valid {
     </style>
 </head>
 <body>
-     <div class="form-card">
- <h1>Enter text to analyze sentiment</h1>
- <form action="/analyze" method="post">
- <textarea name="text" placeholder="Type your sentence here..."></textarea><br>
- <input type="submit" value="Analyze">
- </form>
+    <div class="form-card">
+    {% include 'header.html' %}  <!-- Reusable header -->
+        <h1>Enter text to analyze sentiment</h1>
+        <form action="{{url_for('analyze_sentiment')}}" method="post">
+           <textarea name="text" placeholder="Type your sentence here..."></textarea><br>
+           <input type="submit" value="Analyze">
+    </form>
+    {% include 'footer.html' %}  <!-- Reusable footer -->
+    </div>
 </body>
 </html>
