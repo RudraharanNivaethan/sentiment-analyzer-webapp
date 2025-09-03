@@ -68,7 +68,7 @@ Frontend is built with **PHP and CSS**, while backend uses **Flask, NLTK (VADER)
 ---
 
 ## Folder Structure
-'''
+```
 sentiment-analyzer-webapp/
 │
 ├── templates/           ← All PHP pages
@@ -91,4 +91,4 @@ sentiment-analyzer-webapp/
 ├── app.py (or backend PHP scripts)  ← Flask/PHP backend logic
 ├── README.md            ← Project overview & instructions
 ├── requirements.txt     ← Python dependencies
-'''
+```
