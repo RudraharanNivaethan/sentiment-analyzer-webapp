@@ -71,14 +71,14 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
 ```
 sentiment-analyzer-webapp/
 │
-├── templates/           ← All HTML pages
+├── templates/                   ← All HTML pages
 │   ├── home.html
 │   ├── app.html
 │   ├── result.html
 │   ├── about.html
 │   └── contact.html
 │
-├── static/              ← Static files (CSS, JS, images, charts)
+├── static/                      ← Static files (CSS, JS, images)
 │   ├── css/
 │   │   └── style.css
 │   ├── js/
@@ -86,9 +86,14 @@ sentiment-analyzer-webapp/
 │   └── images/
 │       └── logo.png
 │
-├── header.html           ← Reusable header
-├── footer.html           ← Reusable footer
-├── app.py                ← Flask backend logic
-├── README.md             ← Project overview & instructions
-├── requirements.txt      ← Python dependencies
+├── services/                    ← Modular Python helper functions
+│   ├── sentiment_service.py     ← get_sentiment, get_subjectivity
+│   └── chart_service.py         ← generate_sentiment_chart
+│
+├── header.html                  ← Reusable header
+├── footer.html                  ← Reusable footer
+├── app.py                       ← Flask backend logic and App 
+├── README.md                    ← Project overview & instructions
+├── requirements.txt             ← Python dependencies
+└── .gitignore                   ← Ignore virtual env, __pycache__, etc.
 ```
