@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About This Application</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Container */
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: left;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: fadeInUp 0.8s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        /* Highlighted text styling */
+        .highlight {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Section styling */
+        .section {
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            background: rgba(102, 126, 234, 0.08);
+            transform: translateX(5px);
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        /* List styles */
+        ul {
+            margin: 15px 0;
+            padding-left: 0;
+        }
+
+        li {
+            margin-bottom: 12px;
+            font-size: 1rem;
+            color: #444;
+            position: relative;
+            padding-left: 25px;
+            transition: transform 0.2s ease;
+            list-style: none;
+        }
+
+        li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+            font-size: 1.2rem;
+        }
+
+        li:hover {
+            transform: translateX(5px);
+        }
+
+        li strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+            background: linear-gradient(135deg, #5a6fd8, #6a4190);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn:focus {
+            outline: 3px solid rgba(102, 126, 234, 0.5);
+            outline-offset: 2px;
+        }
+
+        /* Button shine effect */
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+                margin: 10px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 25px;
+            }
+            
+            p {
+                font-size: 1rem;
+            }
+            
+            .section {
+                padding: 20px;
+                margin: 20px 0;
+            }
+            
+            li {
+                font-size: 0.95rem;
+                padding-left: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                padding: 25px 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 20px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 25px 0 0;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* High contrast mode support */
+        @media (prefers-contrast: high) {
+            .container {
+                background: white;
+                border: 2px solid #333;
+            }
+            
+            .section {
+                background: #f8f9fa;
+                border-left-color: #333;
+            }
+            
+            .btn {
+                background: #333;
+                border: 2px solid #333;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>About This Application</h1>
+        
+        <p>The Sentiment Analysis Web Application is built using <span class="highlight">Flask</span>, <span class="highlight">NLTK (VADER)</span>, and <span class="highlight">TextBlob</span>. It enables users to input any sentence or paragraph and instantly receive insights into the sentiment behind the text.</p>
+        
+        <div class="section">
+            <div class="section-title">The app combines two key techniques:</div>
+            <ul>
+                <li><strong>VADER Sentiment Analyzer:</strong> Specially tuned for social media and general text sentiment scoring.</li>
+                <li><strong>TextBlob:</strong> Provides subjectivity measurement and additional language processing features.</li>
+            </ul>
+        </div>
+        
+        <p>Visual representation is provided using <span class="highlight">Matplotlib</span>, so you can see how much of your text is positive, neutral, or negative.</p>
+        
+        <a href="home.html" class="btn">Go to Home</a>
+    </div>
+</body>
+</html>

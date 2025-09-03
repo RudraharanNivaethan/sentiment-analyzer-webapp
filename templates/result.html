@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analysis</title>
+    <style>
+        /* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Card container */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    animation: fadeInUp 0.8s ease-out;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Typography */
+h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Results section styling */
+p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 12px;
+    border-left: 4px solid #667eea;
+    text-align: left;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+p:hover {
+    background: rgba(102, 126, 234, 0.1);
+    transform: translateX(5px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+p:first-of-type {
+    border-left-color: #27ae60;
+    background: rgba(39, 174, 96, 0.05);
+}
+
+p:first-of-type:hover {
+    background: rgba(39, 174, 96, 0.1);
+}
+
+/* Different colors for different metrics */
+p:nth-of-type(2) { /* Overall Sentiment */
+    border-left-color: #e74c3c;
+    background: rgba(231, 76, 60, 0.05);
+}
+
+p:nth-of-type(2):hover {
+    background: rgba(231, 76, 60, 0.1);
+}
+
+p:nth-of-type(3) { /* Compound Score */
+    border-left-color: #f39c12;
+    background: rgba(243, 156, 18, 0.05);
+}
+
+p:nth-of-type(3):hover {
+    background: rgba(243, 156, 18, 0.1);
+}
+
+p:nth-of-type(4) { /* Positive */
+    border-left-color: #27ae60;
+    background: rgba(39, 174, 96, 0.05);
+}
+
+p:nth-of-type(4):hover {
+    background: rgba(39, 174, 96, 0.1);
+}
+
+p:nth-of-type(5) { /* Neutral */
+    border-left-color: #95a5a6;
+    background: rgba(149, 165, 166, 0.05);
+}
+
+p:nth-of-type(5):hover {
+    background: rgba(149, 165, 166, 0.1);
+}
+
+p:nth-of-type(6) { /* Negative */
+    border-left-color: #e74c3c;
+    background: rgba(231, 76, 60, 0.05);
+}
+
+p:nth-of-type(6):hover {
+    background: rgba(231, 76, 60, 0.1);
+}
+
+p:nth-of-type(7) { /* Subjectivity */
+    border-left-color: #9b59b6;
+    background: rgba(155, 89, 182, 0.05);
+}
+
+p:nth-of-type(7):hover {
+    background: rgba(155, 89, 182, 0.1);
+}
+
+/* Strong tags styling */
+strong {
+    color: #2c3e50;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 140px;
+}
+
+/* Graph styling */
+img {
+    max-width: 100%;
+    height: auto;
+    margin: 30px 0 20px 0;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 3px solid rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+}
+
+img:hover {
+    transform: scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+/* Remove br styling */
+br {
+    display: none;
+}
+
+/* Link styling */
+a {
+    display: inline-block;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    text-decoration: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    margin-top: 20px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, #5a6fd8, #6a4190);
+}
+
+a:active {
+    transform: translateY(-1px);
+}
+
+a:focus {
+    outline: 3px solid rgba(102, 126, 234, 0.5);
+    outline-offset: 2px;
+}
+
+/* Link shine effect */
+a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+a:hover::before {
+    left: 100%;
+}
+
+/* Results grid layout for better organization */
+.results-section {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .card {
+        padding: 30px 20px;
+        margin: 10px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+    }
+    
+    p {
+        font-size: 1rem;
+        padding: 12px 15px;
+        text-align: center;
+    }
+    
+    strong {
+        display: block;
+        margin-bottom: 5px;
+        min-width: auto;
+    }
+    
+    img {
+        margin: 20px 0 15px 0;
+    }
+    
+    a {
+        width: 100%;
+        text-align: center;
+        margin-top: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    
+    .card {
+        padding: 25px 15px;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+        margin-bottom: 20px;
+    }
+    
+    p {
+        font-size: 0.95rem;
+        padding: 10px 12px;
+    }
+    
+    strong {
+        font-size: 0.9rem;
+    }
+}
+
+/* Special styling for sentiment values based on their nature */
+p:nth-of-type(2) strong + text {
+    padding: 3px 8px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+/* Animation for results appearing */
+p {
+    animation: slideInLeft 0.6s ease-out forwards;
+    animation-delay: calc(var(--i) * 0.1s);
+    opacity: 0;
+}
+
+p:nth-of-type(1) { --i: 0; animation-delay: 0.2s; }
+p:nth-of-type(2) { --i: 1; animation-delay: 0.3s; }
+p:nth-of-type(3) { --i: 2; animation-delay: 0.4s; }
+p:nth-of-type(4) { --i: 3; animation-delay: 0.5s; }
+p:nth-of-type(5) { --i: 4; animation-delay: 0.6s; }
+p:nth-of-type(6) { --i: 5; animation-delay: 0.7s; }
+p:nth-of-type(7) { --i: 6; animation-delay: 0.8s; }
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Accessibility improvements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    p {
+        opacity: 1;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .card {
+        background: white;
+        border: 2px solid #333;
+    }
+    
+    p {
+        background: #f8f9fa;
+        border-left-color: #333;
+    }
+    
+    a {
+        background: #333;
+        border: 2px solid #333;
+    }
+}
+    </style>
+</head>
+<body>
+     <div class="card">
+ <h1>Sentiment Analysis Result</h1>
+ <p><strong>Text:</strong> {{ text }}</p>
+ <p><strong>Overall Sentiment:</strong> {{ sentiment }}</p>
+ <p><strong>Compound Score:</strong> {{ polarity }}</p>
+ <p><strong>Positive:</strong> {{ pos }}</p>
+ <p><strong>Neutral:</strong> {{ neu }}</p>
+ <p><strong>Negative:</strong> {{ neg }}</p>
+ <p><strong>Subjectivity:</strong> {{ subjectivity }}</p>
+ <!--Graph-->
+ <img src="{{ url_for('static', filename=graph) }}" alt="Sentiment Graph">
+ <br>
+ <a href="app.html">Analyze Another Text</a>
+ </div>
+</body>
+</html>
