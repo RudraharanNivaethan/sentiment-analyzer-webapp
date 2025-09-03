@@ -10,23 +10,23 @@ It uses **Natural Language Processing (NLP)** techniques to calculate:
 
 The app also provides a **visual bar chart** of sentiment distribution.
 
-Frontend is built with **PHP and CSS**, while backend uses **Flask, NLTK (VADER), TextBlob, and Matplotlib**.
+Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER), TextBlob, and Matplotlib**.
 
 ---
 
 ## Features
 
-- **Home Page (`home.php`)**
+- **Home Page (`home.html`)**
   - Introduction to sentiment metrics:
     - Compound Score, Overall Sentiment, Subjectivity, Sentiment Breakdown
-  - CTA button **Start Sentiment Analysis** → leads to App page (`app.php`)
-  - “Learn More About This App” button → leads to **About Page** (`about.php`)
+  - CTA button **Start Sentiment Analysis** → leads to App page (`app.html`)
+  - “Learn More About This App” button → leads to **About Page** (`about.html`)
 
-- **App Page / Text Input Form (`app.php`)**
+- **App Page / Text Input Form (`app.html`)**
   - Users can input text for sentiment analysis
   - Submit button triggers analysis and redirects to **Result Page**
 
-- **Sentiment Result Page (`result.php`)**
+- **Sentiment Result Page (`result.html`)**
   - Displays:
     - Input text
     - Overall Sentiment
@@ -37,15 +37,15 @@ Frontend is built with **PHP and CSS**, while backend uses **Flask, NLTK (VADER)
   - Shows **dynamic bar chart** of sentiment distribution
   - Button **Analyze Another Text** → returns to App page
 
-- **About Page (`about.php`)**
+- **About Page (`about.html`)**
   - Explains the app’s purpose, technologies used, and features
   - Provides background on NLP and sentiment analysis
 
-- **Contact Page (`contact.php`)**
+- **Contact Page (`contact.html`)**
   - Shows team members, their contributions, and GitHub links
 
 - **Reusable Components**
-  - **Header (`header.php`)** and **Footer (`footer.php`)** included on all pages
+  - **Header (`header.html`)** and **Footer (`footer.html`)** included on all pages
   - Header contains navigation and optional logo
   - Footer contains GitHub links and contact/social info
 
@@ -71,12 +71,12 @@ Frontend is built with **PHP and CSS**, while backend uses **Flask, NLTK (VADER)
 ```
 sentiment-analyzer-webapp/
 │
-├── templates/           ← All PHP pages
-│   ├── home.php
-│   ├── app.php
-│   ├── result.php
-│   ├── about.php
-│   └── contact.php
+├── templates/           ← All HTML pages
+│   ├── home.html
+│   ├── app.html
+│   ├── result.html
+│   ├── about.html
+│   └── contact.html
 │
 ├── static/              ← Static files (CSS, JS, images, charts)
 │   ├── css/
@@ -86,9 +86,9 @@ sentiment-analyzer-webapp/
 │   └── images/
 │       └── logo.png
 │
-├── header.php           ← Reusable header
-├── footer.php           ← Reusable footer
-├── app.py (or backend PHP scripts)  ← Flask/PHP backend logic
-├── README.md            ← Project overview & instructions
-├── requirements.txt     ← Python dependencies
+├── header.html           ← Reusable header
+├── footer.html           ← Reusable footer
+├── app.py                ← Flask backend logic
+├── README.md             ← Project overview & instructions
+├── requirements.txt      ← Python dependencies
 ```
