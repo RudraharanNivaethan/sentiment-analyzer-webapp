@@ -7,6 +7,8 @@ import matplotlib
 matplotlib.use('Agg') # Use this to avoid GUI issues in Flask
 import matplotlib.pyplot as plt
 import os
+from io import BytesIO
+import base64
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -74,3 +76,28 @@ def analyze_sentiment():
     plt.ylim(0, 1) # Set y-axis limits
     plt.ylabel('Proportion')
     plt.title("Sentiment Distribution")
+
+    # Save plot to BytesIO object
+    img = BytesIO()
+    plt.savefig(img, format='png') 
+    plt.close() # Close the plot to free memory
+    img.seek(0) # Rewind to the beginning of the BytesIO Object
+
+    # Encode image to base64 string for HTML
+    chart_url = base64.b64encode(img.getvalue()).decode('utf8')
+
+    return render_template('result.html',
+                           text=text,
+                           sentiment=sentiment,
+                           polarity=polarity,
+                           pos=pos,
+                           neu=neu,
+                           neg=neg,
+                           subjectivity=subjectivity,
+                           subjectivity_class=subjectivity_class,
+                           chart_url=chart_url)
+# ----------- End of Routes -----------
+
+# Run the app only if this file is executed directly
+if __name__ == '__main__':
+    app.run(debug=True)
