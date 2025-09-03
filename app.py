@@ -1,14 +1,6 @@
 from flask import Flask, request, render_template
-import nltk
-nltk.download('vader_lexicon', quiet=True)  # Download VADER lexicon
-from nltk.sentiment import SentimentIntensityAnalyzer
-from textblob import TextBlob
-import matplotlib
-matplotlib.use('Agg') # Use this to avoid GUI issues in Flask
-import matplotlib.pyplot as plt
-import os
-from io import BytesIO
-import base64
+from services.sentiment_service import get_sentiment, get_subjectivity
+from services.chart_service import generate_sentiment_chart
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -30,74 +22,48 @@ def contact():
     return render_template('contact.html')
 
 # App Route
-@app.route('/app')
+@app.route('/app_page')
 def app_page():
     return render_template('app.html')
 
 # Result Route
-@app.route('/result', methods=['POST'])
+@app.route('/analyze_sentiment', methods=['POST'])
 def analyze_sentiment():
-    text = request.form['text']
+    text = request.form.get('text', '').strip()
 
-    # Use VADER for Sentiment Analysis
-    sa = SentimentIntensityAnalyzer() # Implement VADER
-    scores = sa.polarity_scores(text) # Get polarity scores
+    # Handle empty input
+    if not text:
+     return render_template('app.html', error="Please enter some text.")
 
-    polarity = scores['compound'] # Compound score for overall sentiment
-    pos = scores['pos'] # Fraction of text that is positive (0 to 1)
-    neu = scores['neu'] # Fraction of text that is neutral (0 to 1)
-    neg = scores['neg'] # Fraction of text that is negative (0 to 1)
+    try:
+        # Get sentiment and VADER scores
+        sentiment, scores = get_sentiment(text)
+        polarity = scores['compound'] # Compound score for overall sentiment
+        pos = scores['pos'] # Fraction of text that is positive (0 to 1)
+        neu = scores['neu'] # Fraction of text that is neutral (0 to 1)
+        neg = scores['neg'] # Fraction of text that is negative (0 to 1)
 
-    # Determine sentiment
-    if polarity >= 0.05:
-        sentiment = "Positive 😊"
-    elif polarity <= -0.05:
-        sentiment = "Negative 😢"
-    else:
-        sentiment = "Neutral 😐"
+        # Get Subjectivity and classification
+        subjectivity, subjectivity_class = get_subjectivity(text)
 
-    # Subjectivity using TextBlob
-    blob = TextBlob(text)
-    subjectivity = blob.sentiment.subjectivity  # 0 (objective) to 1 (subjective)
+        # Generate Sentiment Chart
+        chart_url = generate_sentiment_chart(pos,neu,neg)
 
-    # Subjectivity Classification
-    if subjectivity < 0.5:
-        subjectivity_class = "Objective"
-    else:
-        subjectivity_class = "Subjective"
-
-    # Create Matplotlib Chart
-    labels = ["Positive", "Neutral", "Negative"]
-    values = [pos, neu, neg]
-    colors = ['green', 'blue', 'red']
-
-    plt.figure(figsize=(5, 4)) # Width 5 inches, height 4 inches.
-    plt.bar(labels, values, color=colors) # Draws vertical bars.
-    plt.ylim(0, 1) # Set y-axis limits
-    plt.ylabel('Proportion')
-    plt.title("Sentiment Distribution")
-
-    # Save plot to BytesIO object
-    img = BytesIO()
-    plt.savefig(img, format='png') 
-    plt.close() # Close the plot to free memory
-    img.seek(0) # Rewind to the beginning of the BytesIO Object
-
-    # Encode image to base64 string for HTML
-    chart_url = base64.b64encode(img.getvalue()).decode('utf8')
-
-    return render_template('result.html',
-                           text=text,
-                           sentiment=sentiment,
-                           polarity=polarity,
-                           pos=pos,
-                           neu=neu,
-                           neg=neg,
-                           subjectivity=subjectivity,
-                           subjectivity_class=subjectivity_class,
-                           chart_url=chart_url)
-# ----------- End of Routes -----------
+        return render_template('result.html',
+                               text=text,
+                               sentiment=sentiment,
+                               polarity=polarity,
+                               pos=pos,
+                               neu=neu,
+                               neg=neg,
+                               subjectivity=subjectivity,
+                               subjectivity_class=subjectivity_class,
+                               chart_url=chart_url)     
+    except Exception as e:
+        # Catch any unexpected error and display friendly message
+        return render_template('app.html', error=f"An error occurred: {str(e)}")
+# ----------- End of Routes ----------- 
 
 # Run the app only if this file is executed directly
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False) # Set debug to False for production
