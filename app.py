@@ -33,7 +33,7 @@ def analyze_sentiment():
 
     # Handle empty input
     if not text:
-     return render_template('app.html', error="Please enter some text.")
+        return render_template('app.html', error="Please enter some text.")
 
     try:
         # Get sentiment and VADER scores

@@ -4,41 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sentiment AI - Advanced Text Analysis Platform</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <a href="home.html" class="logo">
-                        <i class="fas fa-brain"></i>
-                        <span>Sentiment Analysis</span>
-                    </a>
-                </div>
-                
-                <div class="nav-menu" id="navMenu">
-                    <ul class="nav-links">
-                        <li><a href="home.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
-                        <li><a href="app.html" class="nav-link"><i class="fas fa-chart-line"></i> Analyze</a></li>
-                        <li><a href="contact.html" class="nav-link"><i class="fas fa-users"></i> Team</a></li>
-                    </ul>
-                </div>
-                
-                <div class="nav-actions">
-                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
+    {% include 'header.html' %}
 
     <!-- Main Content -->
     <main class="main-content">
@@ -50,18 +22,18 @@
                     <h1>Unlock Emotions in Text</h1>
                     <p>Advanced sentiment analysis powered by cutting-edge AI technology. Understand the emotions, opinions, and subjectivity hidden within any text with precision and clarity.</p>
                     <div class="hero-actions">
-                        <a href="app.html" class="btn btn-primary btn-lg">
+                        <a href="{{ url_for('app_page') }}" class="btn btn-primary btn-lg">
                             <i class="fas fa-play"></i>
                             Start Analyzing
                         </a>
-                        <a href="about.html" class="btn btn-secondary btn-lg">
+                        <a href="{{ url_for('about') }}" class="btn btn-secondary btn-lg">
                             <i class="fas fa-info-circle"></i>
                             Learn More
                         </a>
                     </div>
                 </div>
                 <div class="hero-image">
-                    <img src="1.jpeg" alt="Sentiment Analysis" class="hero-img">
+                    <img src="{{ url_for('static', filename='images/sa.jpg') }}" alt="Sentiment Analysis" class="hero-img">
                 </div>
             </div>
         </section>
@@ -167,95 +139,8 @@
                 </div>
             </div>
         </section>
-
-
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <div class="footer-copyright">
-                        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
-                        <p>Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> for understanding emotions in text.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <style>
-        .hero-actions {
-            display: flex;
-            gap: var(--spacing-lg);
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--spacing-lg);
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .step-number {
-            width: 80px;
-            height: 80px;
-            border-radius: var(--radius-full);
-            background: var(--primary-gradient);
-            color: var(--text-inverse);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 800;
-            margin: 0 auto var(--spacing-lg);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .stat-label {
-            font-size: 1.125rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .nav-link.active {
-            color: var(--primary-color);
-            background: var(--bg-secondary);
-        }
-
-        .hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-        }
-
-        @media (max-width: 768px) {
-            .hero-actions {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .hero-actions .btn {
-                width: 100%;
-                max-width: 300px;
-            }
-        }
-    </style>
+    </main>
+    {% include 'footer.html' %}
 
     <script>
         // Mobile menu toggle

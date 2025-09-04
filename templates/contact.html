@@ -4,42 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Team - Sentiment AI</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <nav class="navbar">
-            <div class="nav-container">
-                <div class="nav-brand">
-                    <a href="home.html" class="logo">
-                        <i class="fas fa-brain"></i>
-                        <span>Sentiment AI</span>
-                    </a>
-                </div>
-                
-                <div class="nav-menu" id="navMenu">
-                    <ul class="nav-links">
-                        <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
-                        <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
-                        <li><a href="app.html" class="nav-link"><i class="fas fa-chart-line"></i> Analyze</a></li>
-                        <li><a href="contact.html" class="nav-link active"><i class="fas fa-users"></i> Team</a></li>
-                    </ul>
-                </div>
-                
-                <div class="nav-actions">
-                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    </header>
-
+    {% include 'header.html' %}
     <!-- Main Content -->
     <main class="main-content">
         <!-- Hero Section -->
@@ -63,7 +34,7 @@
                 <div class="team-grid">
                     <div class="team-member">
                         <div class="member-photo">
-                            <img src="alex.jpeg" alt="Alex Chen" class="profile-photo" />
+                            <img src="{{ url_for('static', filename='images/alex.jpg') }}" alt="Alex Chen" class="profile-photo" />
                         </div>
                         <div class="member-info">
                             <h3>Alex Chen</h3>
@@ -99,7 +70,7 @@
                     
                     <div class="team-member">
                         <div class="member-photo">
-                            <img src="sarah.jpeg" alt="Sarah Johnson" class="profile-photo" />
+                            <img src="{{ url_for('static', filename='images/sarah.jpg') }}" alt="Sarah Johnson" class="profile-photo" />
                         </div>
                         <div class="member-info">
                             <h3>Sarah Johnson</h3>
@@ -135,7 +106,7 @@
                     
                     <div class="team-member">
                         <div class="member-photo">
-                            <img src="michael.jpeg" alt="Michael Rodriguez" class="profile-photo" />
+                            <img src="{{ url_for('static', filename='images/michael.webp') }}" alt="Michael Rodriguez" class="profile-photo" />
                         </div>
                         <div class="member-info">
                             <h3>Michael Rodriguez</h3>
@@ -207,213 +178,8 @@
                 </div>
             </div>
         </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-bottom">
-                <div class="footer-bottom-content">
-                    <div class="footer-copyright">
-                        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
-                        <p>Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> for understanding emotions in text.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <style>
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: var(--spacing-2xl);
-            margin-bottom: var(--spacing-3xl);
-        }
-
-        .team-member {
-            background: var(--bg-card);
-            border-radius: var(--radius-2xl);
-            padding: var(--spacing-2xl);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--border-color);
-            transition: all var(--transition-normal);
-            text-align: center;
-        }
-
-        .team-member:hover {
-            transform: translateY(-10px);
-            box-shadow: var(--shadow-xl);
-        }
-
-        .member-photo {
-            margin-bottom: var(--spacing-xl);
-        }
-
-        .profile-photo {
-            width: 120px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 50%;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.07);
-            margin: 0 auto var(--spacing-xl) auto;
-            display: block;
-            background: #f3f4f6;
-        }
-
-        .member-info h3 {
-            font-size: 1.5rem;
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-primary);
-        }
-
-        .member-role {
-            font-size: 1.125rem;
-            color: var(--primary-color);
-            font-weight: 600;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .member-bio {
-            color: var(--text-secondary);
-            line-height: 1.6;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .member-skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--spacing-sm);
-            justify-content: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .skill-tag {
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--radius-full);
-            font-size: 0.875rem;
-            font-weight: 500;
-            border: 1px solid var(--border-color);
-        }
-
-        .member-social {
-            display: flex;
-            justify-content: center;
-            gap: var(--spacing-md);
-        }
-
-        .member-social .social-link {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--radius-full);
-            background: var(--bg-secondary);
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all var(--transition-normal);
-            border: 1px solid var(--border-color);
-        }
-
-        .member-social .social-link:hover {
-            background: var(--primary-color);
-            color: var(--text-inverse);
-            transform: translateY(-3px);
-        }
-
-        .value-card {
-            text-align: center;
-            padding: var(--spacing-xl);
-            background: var(--bg-card);
-            border-radius: var(--radius-2xl);
-            border: 1px solid var(--border-color);
-            transition: all var(--transition-normal);
-        }
-
-        .value-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .value-icon {
-            font-size: 2.5rem;
-            margin-bottom: var(--spacing-lg);
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .contact-info {
-            display: flex;
-            flex-direction: column;
-            gap: var(--spacing-xl);
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: flex-start;
-            gap: var(--spacing-lg);
-            padding: var(--spacing-xl);
-            background: var(--bg-card);
-            border-radius: var(--radius-2xl);
-            border: 1px solid var(--border-color);
-            transition: all var(--transition-normal);
-        }
-
-        .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        .contact-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: var(--radius-full);
-            background: var(--primary-gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-inverse);
-            font-size: 1.5rem;
-            flex-shrink: 0;
-        }
-
-        .contact-details h3 {
-            margin-bottom: var(--spacing-sm);
-            color: var(--text-primary);
-        }
-
-        .contact-details p {
-            margin-bottom: var(--spacing-xs);
-            color: var(--text-secondary);
-        }
-
-        .contact-form {
-            background: var(--bg-card);
-            padding: var(--spacing-2xl);
-            border-radius: var(--radius-2xl);
-            border: 1px solid var(--border-color);
-            box-shadow: var(--shadow);
-        }
-
-        .nav-link.active {
-            color: var(--primary-color);
-            background: var(--bg-secondary);
-        }
-
-        @media (max-width: 768px) {
-            .team-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-item {
-                flex-direction: column;
-                text-align: center;
-            }
-        }
-    </style>
+    </main>
+    {% include 'footer.html' %}
 
     <script>
         // Mobile menu toggle
