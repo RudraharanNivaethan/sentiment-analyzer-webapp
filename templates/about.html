@@ -3,289 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About This Application</title>
+    <title>About - Sentiment AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="home.html" class="logo">
+                        <i class="fas fa-brain"></i>
+                        <span>Sentiment Analysis</span>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-links">
+                        <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="about.html" class="nav-link active"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="app.html" class="nav-link"><i class="fas fa-chart-line"></i> Analyze</a></li>
+                        <li><a href="contact.html" class="nav-link"><i class="fas fa-users"></i> Team</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>About Sentiment Analysis</h1>
+                    <p>Understanding emotions in text through advanced artificial intelligence and natural language processing</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section">
+            <div class="container">
+                <div class="grid grid-2">
+                    <div>
+                        <h2>Our Mission</h2>
+                        <p class="text-secondary mb-4">
+                            In today's digital world, vast amounts of text are generated every second—social media posts, 
+                            reviews, articles, and more. Understanding the emotions and opinions hidden within these texts 
+                            is crucial for businesses, researchers, and individuals alike.
+                        </p>
+                        <p class="text-secondary mb-4">
+                            Our Sentiment Analysis Web App is a user-friendly platform that allows anyone to quickly 
+                            analyze the sentiment of any text input. Using advanced Natural Language Processing (NLP) 
+                            techniques, we provide detailed insights that help you understand the emotional tone and 
+                            subjectivity of your content.
+                        </p>
+                        <a href="app.html" class="btn btn-primary">
+                            <i class="fas fa-play"></i>
+                            Try It Now
+                        </a>
+                    </div>
+                    <div class="text-center">
+                        <div class="hero-image">
+                            <img src="2.jpeg" alt="Sentiment Analysis Visual" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section bg-secondary">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>What We Analyze</h2>
+                    <p class="text-secondary">Comprehensive sentiment analysis with detailed insights</p>
+                </div>
+                
+                <div class="grid grid-2">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="feature-header">
+                                <i class="fas fa-chart-line"></i>
+                                <h3>Compound Score</h3>
+                            </div>
+                            <p class="text-secondary">
+                                A numerical value ranging from -1 (most negative) to +1 (most positive), 
+                                giving an overall sentiment indication. This score combines multiple sentiment 
+                                indicators to provide a comprehensive assessment.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="feature-header">
+                                <i class="fas fa-smile"></i>
+                                <h3>Overall Sentiment</h3>
+                            </div>
+                            <p class="text-secondary">
+                                Categorizes text as Positive 😊, Neutral 😐, or Negative 😢 based on the 
+                                compound score. Our algorithm considers context, tone, and emotional indicators 
+                                to make accurate classifications.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="feature-header">
+                                <i class="fas fa-percentage"></i>
+                                <h3>Subjectivity</h3>
+                            </div>
+                            <p class="text-secondary">
+                                Measures how subjective or opinionated a text is, from 0 (very objective) 
+                                to 1 (very subjective). This helps distinguish between factual statements 
+                                and personal opinions or emotions.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="feature-header">
+                                <i class="fas fa-chart-pie"></i>
+                                <h3>Sentiment Breakdown</h3>
+                            </div>
+                            <p class="text-secondary">
+                                Shows the percentage of positive, neutral, and negative words in the text. 
+                                This detailed breakdown provides insights into the emotional composition 
+                                of your content.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technology Section -->
+        <section class="section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Technology Stack</h2>
+                    <p class="text-secondary">Built with cutting-edge technologies for accurate analysis</p>
+                </div>
+                
+                <div class="grid grid-3">
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <h3>Python & Flask</h3>
+                        <p>Robust backend framework ensuring reliable performance and scalability for text processing.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <h3>NLTK & VADER</h3>
+                        <p>Advanced natural language processing libraries for sentiment analysis and text understanding.</p>
+                    </div>
+                    
+                    <div class="tech-card">
+                        <div class="tech-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>TextBlob & Matplotlib</h3>
+                        <p>Powerful tools for text analysis and data visualization, creating beautiful charts and reports.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Use Cases Section -->
+        <section class="section bg-secondary">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Who Can Benefit?</h2>
+                    <p class="text-secondary">Perfect for various professionals and use cases</p>
+                </div>
+                
+                <div class="grid grid-2">
+                    <div class="use-case">
+                        <div class="use-case-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h3>Students & Researchers</h3>
+                        <p>Analyze academic papers, social media data, and research content to understand sentiment patterns and emotional trends.</p>
+                    </div>
+                    
+                    <div class="use-case">
+                        <div class="use-case-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Developers</h3>
+                        <p>Integrate sentiment analysis into applications, chatbots, and social media monitoring tools for enhanced user experience.</p>
+                    </div>
+                    
+                    <div class="use-case">
+                        <div class="use-case-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Business Analysts</h3>
+                        <p>Monitor customer feedback, product reviews, and brand sentiment to make data-driven business decisions.</p>
+                    </div>
+                    
+                    <div class="use-case">
+                        <div class="use-case-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Content Creators</h3>
+                        <p>Understand audience reactions to content, optimize messaging, and create more engaging and emotionally resonant material.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section">
+            <div class="container text-center">
+                <h2>Ready to Get Started?</h2>
+                <p class="text-secondary mb-4">Experience the power of advanced sentiment analysis</p>
+                <a href="app.html" class="btn btn-primary btn-lg">
+                    <i class="fas fa-rocket"></i>
+                    Start Analyzing
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
+                        <p>Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> for understanding emotions in text.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <style>
-        /* Reset and base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        /* Container */
-        .container {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
-            max-width: 800px;
-            width: 100%;
-            text-align: left;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            animation: fadeInUp 0.8s ease-out;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Typography */
-        h1 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            margin-bottom: 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+        .about-visual {
+            font-size: 6rem;
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin: var(--spacing-xl) 0;
+        }
+
+        .feature-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-md);
+            margin-bottom: var(--spacing-md);
+        }
+
+        .feature-header i {
+            font-size: 2rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tech-card {
             text-align: center;
+            padding: var(--spacing-xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
         }
 
-        p {
-            font-size: 1.1rem;
-            color: #555;
-            margin-bottom: 20px;
-            line-height: 1.8;
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
-        /* Highlighted text styling */
-        .highlight {
-            color: #667eea;
-            font-weight: 600;
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        /* Section styling */
-        .section {
-            background: rgba(102, 126, 234, 0.05);
-            border-radius: 15px;
-            padding: 25px;
-            margin: 25px 0;
-            border-left: 4px solid #667eea;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-            transition: all 0.3s ease;
+        .use-case {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+            padding: var(--spacing-xl);
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            border: 1px solid var(--border-color);
+            transition: all var(--transition-normal);
         }
 
-        .section:hover {
-            background: rgba(102, 126, 234, 0.08);
-            transform: translateX(5px);
+        .use-case:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
         }
 
-        .section-title {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 15px;
+        .use-case-icon {
+            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            flex-shrink: 0;
         }
 
-        /* List styles */
-        ul {
-            margin: 15px 0;
-            padding-left: 0;
+        .nav-link.active {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
         }
 
-        li {
-            margin-bottom: 12px;
-            font-size: 1rem;
-            color: #444;
-            position: relative;
-            padding-left: 25px;
-            transition: transform 0.2s ease;
-            list-style: none;
-        }
-
-        li::before {
-            content: '•';
-            color: #667eea;
-            font-weight: bold;
-            position: absolute;
-            left: 0;
-            font-size: 1.2rem;
-        }
-
-        li:hover {
-            transform: translateX(5px);
-        }
-
-        li strong {
-            color: #667eea;
-            font-weight: 600;
-        }
-
-        /* Button styling */
-        .btn {
-            display: inline-block;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1rem;
-            margin-top: 30px;
-            transition: all 0.3s ease;
-            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-            position: relative;
-            overflow: hidden;
-            text-align: center;
-            display: block;
-            width: fit-content;
-            margin: 30px auto 0;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-            background: linear-gradient(135deg, #5a6fd8, #6a4190);
-        }
-
-        .btn:active {
-            transform: translateY(-1px);
-        }
-
-        .btn:focus {
-            outline: 3px solid rgba(102, 126, 234, 0.5);
-            outline-offset: 2px;
-        }
-
-        /* Button shine effect */
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        /* Responsive design */
         @media (max-width: 768px) {
-            .container {
-                padding: 30px 20px;
-                margin: 10px;
+            .about-visual {
+                font-size: 4rem;
             }
             
-            h1 {
-                font-size: 1.8rem;
-                margin-bottom: 25px;
-            }
-            
-            p {
-                font-size: 1rem;
-            }
-            
-            .section {
-                padding: 20px;
-                margin: 20px 0;
-            }
-            
-            li {
-                font-size: 0.95rem;
-                padding-left: 20px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 25px 15px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-                margin-bottom: 20px;
-            }
-            
-            .section {
-                padding: 15px;
-            }
-            
-            .btn {
-                width: 100%;
-                margin: 25px 0 0;
-            }
-        }
-
-        /* Accessibility improvements */
-        @media (prefers-reduced-motion: reduce) {
-            * {
-                animation-duration: 0.01ms !important;
-                animation-iteration-count: 1 !important;
-                transition-duration: 0.01ms !important;
-            }
-        }
-
-        /* High contrast mode support */
-        @media (prefers-contrast: high) {
-            .container {
-                background: white;
-                border: 2px solid #333;
-            }
-            
-            .section {
-                background: #f8f9fa;
-                border-left-color: #333;
-            }
-            
-            .btn {
-                background: #333;
-                border: 2px solid #333;
+            .use-case {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>About This Application</h1>
-        
-        <p>The Sentiment Analysis Web Application is built using <span class="highlight">Flask</span>, <span class="highlight">NLTK (VADER)</span>, and <span class="highlight">TextBlob</span>. It enables users to input any sentence or paragraph and instantly receive insights into the sentiment behind the text.</p>
-        
-        <div class="section">
-            <div class="section-title">The app combines two key techniques:</div>
-            <ul>
-                <li><strong>VADER Sentiment Analyzer:</strong> Specially tuned for social media and general text sentiment scoring.</li>
-                <li><strong>TextBlob:</strong> Provides subjectivity measurement and additional language processing features.</li>
-            </ul>
-        </div>
-        
-        <p>Visual representation is provided using <span class="highlight">Matplotlib</span>, so you can see how much of your text is positive, neutral, or negative.</p>
-        
-        <a href="home.html" class="btn">Go to Home</a>
-    </div>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuToggle').classList.remove('active');
+            });
+        });
+
+        // Theme functionality removed - using single light theme
+    </script>
 </body>
 </html>

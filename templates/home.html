@@ -1,249 +1,319 @@
-<!------------------------------------Home Page-------------------------------------->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentiment Analysis</title>
-    <style>
-        /* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Container */
-.container {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 800px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeInUp 0.8s ease-out;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Typography */
-h1 {
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-p {
-    font-size: 1.1rem;
-    color: #555;
-    margin-bottom: 30px;
-    line-height: 1.8;
-}
-
-/* List styles */
-ul {
-    background: rgba(102, 126, 234, 0.05);
-    border-radius: 15px;
-    padding: 30px;
-    margin: 30px auto;
-    border-left: 4px solid #667eea;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-li {
-    margin-bottom: 15px;
-    font-size: 1rem;
-    color: #444;
-    position: relative;
-    padding-left: 10px;
-    transition: transform 0.2s ease;
-}
-
-li:hover {
-    transform: translateX(5px);
-}
-
-li:last-child {
-    margin-bottom: 0;
-}
-
-li strong {
-    color: #667eea;
-    font-weight: 600;
-}
-
-/* Button styles */
-.cta, .nav-link {
-    display: inline-block;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    padding: 15px 30px;
-    margin: 10px;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    border: 2px solid transparent;
-}
-
-.cta {
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-}
-
-.cta:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #5a6fd8, #6a4190);
-}
-
-.nav-link {
-    background: transparent;
-    color: #667eea;
-    border: 2px solid #667eea;
-}
-
-.nav-link:hover {
-    background: #667eea;
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.2);
-}
-
-/* Active states */
-.cta:active, .nav-link:active {
-    transform: translateY(-1px);
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .container {
-        padding: 30px 20px;
-        margin: 10px;
-    }
-    
-    h1 {
-        font-size: 2rem;
-    }
-    
-    p {
-        font-size: 1rem;
-    }
-    
-    ul {
-        padding: 20px;
-        text-align: left;
-    }
-    
-    li {
-        font-size: 0.9rem;
-    }
-    
-    .cta, .nav-link {
-        display: block;
-        width: 100%;
-        margin: 10px 0;
-        text-align: center;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        padding: 25px 15px;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-    }
-    
-    ul {
-        padding: 15px;
-    }
-}
-
-/* Additional hover effects */
-.container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-}
-
-/* Focus states for accessibility */
-.cta:focus, .nav-link:focus {
-    outline: 3px solid rgba(102, 126, 234, 0.5);
-    outline-offset: 2px;
-}
-
-/* Loading animation for buttons */
-.cta::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-.cta:hover::before {
-    left: 100%;
-}
-    </style>
+    <title>Sentiment AI - Advanced Text Analysis Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-     <div class="container">
- <h1>Welcome to Sentiment Analysis App</h1>
- <p>
- This web application helps you analyze the <strong>sentiment</strong
- > behind any text you provide.  
-It uses Natural Language Processing (NLP) techniques to measure:
- </p>
- <ul style="text-align:left; max-width:700px; margin:auto;">
- <li><strong>Compound Score:</strong> An overall sentiment score ranging from -1 (most negative) to +1 (most positive).</li>
- <li><strong>Overall Sentiment:</strong> Categorized as Positive , Negative  , or Neutral 
- based on the compound score.</li>
- <li><strong>Subjectivity:</strong> A value from 0 (very objective) to 1 
-(very subjective), showing how much the text expresses opinion vs fact.</li>
- <li><strong>Sentiment Breakdown:</strong> Percentage of positive, neutral, and negative words in the text.</li>
- </ul>
- <a href="app.html" class="cta">Start Sentiment Analysis</a>
- <a href="about.html" class="nav-link">Learn More About This App</a>
- </div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="home.html" class="logo">
+                        <i class="fas fa-brain"></i>
+                        <span>Sentiment Analysis</span>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-links">
+                        <li><a href="home.html" class="nav-link active"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="app.html" class="nav-link"><i class="fas fa-chart-line"></i> Analyze</a></li>
+                        <li><a href="contact.html" class="nav-link"><i class="fas fa-users"></i> Team</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
 
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-tag">AI-Powered Text Analysis</div>
+                    <h1>Unlock Emotions in Text</h1>
+                    <p>Advanced sentiment analysis powered by cutting-edge AI technology. Understand the emotions, opinions, and subjectivity hidden within any text with precision and clarity.</p>
+                    <div class="hero-actions">
+                        <a href="app.html" class="btn btn-primary btn-lg">
+                            <i class="fas fa-play"></i>
+                            Start Analyzing
+                        </a>
+                        <a href="about.html" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-info-circle"></i>
+                            Learn More
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-image">
+                    <img src="1.jpeg" alt="Sentiment Analysis" class="hero-img">
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section class="section bg-secondary">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>How It Works</h2>
+                    <p class="text-secondary">Simple steps to powerful insights</p>
+                </div>
+                
+                <div class="grid grid-3">
+                    <div class="text-center">
+                        <div class="step-number">1</div>
+                        <h3>Input Your Text</h3>
+                        <p>Paste or type any text you want to analyze. Our system works with social media posts, reviews, articles, and more.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="step-number">2</div>
+                        <h3>AI Analysis</h3>
+                        <p>Our advanced algorithms process your text using multiple sentiment analysis techniques to ensure accuracy.</p>
+                    </div>
+                    
+                    <div class="text-center">
+                        <div class="step-number">3</div>
+                        <h3>Get Insights</h3>
+                        <p>Receive detailed results including sentiment scores, subjectivity analysis, and visual representations of your data.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Why Choose Sentiment AI?</h2>
+                    <p class="text-secondary">Powerful features designed for accurate and insightful text analysis</p>
+                </div>
+                
+                <div class="grid grid-3">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <h3>Advanced Analysis</h3>
+                            <p>Get comprehensive sentiment analysis with compound scores, subjectivity detection, and emotional breakdowns using state-of-the-art NLP algorithms.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <h3>Real-time Results</h3>
+                            <p>Analyze text instantly with our lightning-fast processing engine. Get detailed insights and visual reports in seconds, not minutes.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-chart-pie"></i>
+                            </div>
+                            <h3>Visual Analytics</h3>
+                            <p>Beautiful charts and graphs make it easy to understand sentiment patterns. Export results in multiple formats for further analysis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Privacy First</h3>
+                            <p>Your data is secure and private. We don't store your text permanently, ensuring complete confidentiality of your analysis.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <h3>Responsive Design</h3>
+                            <p>Access our platform from any device. Our responsive design ensures a seamless experience across desktop, tablet, and mobile.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <div class="feature-icon">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <h3>Modern Interface</h3>
+                            <p>Enjoy a beautiful, intuitive interface with light and dark themes. Clean design focused on user experience and accessibility.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
+                        <p>Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> for understanding emotions in text.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .hero-actions {
+            display: flex;
+            gap: var(--spacing-lg);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: var(--spacing-lg);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-full);
+            background: var(--primary-gradient);
+            color: var(--text-inverse);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0 auto var(--spacing-lg);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .stat-label {
+            font-size: 1.125rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            background: var(--bg-secondary);
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @media (max-width: 768px) {
+            .hero-actions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-actions .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuToggle').classList.remove('active');
+            });
+        });
+
+        // Theme functionality removed - using single light theme
+
+        // Animate stats on scroll
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = target.textContent;
+                        const isPercentage = finalValue.includes('%');
+                        const isPlus = finalValue.includes('+');
+                        const numericValue = parseFloat(finalValue.replace(/[^\d.]/g, ''));
+                        
+                        let current = 0;
+                        const increment = numericValue / 50;
+                        const timer = setInterval(() => {
+                            current += increment;
+                            if (current >= numericValue) {
+                                current = numericValue;
+                                clearInterval(timer);
+                            }
+                            
+                            let displayValue = Math.floor(current);
+                            if (isPercentage) displayValue += '%';
+                            if (isPlus) displayValue += '+';
+                            if (finalValue.includes('/')) displayValue = finalValue;
+                            
+                            target.textContent = displayValue;
+                        }, 30);
+                        
+                        observer.unobserve(target);
+                    }
+                });
+            });
+            
+            stats.forEach(stat => observer.observe(stat));
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', animateStats);
+    </script>
 </body>
 </html>

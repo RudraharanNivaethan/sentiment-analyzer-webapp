@@ -1,379 +1,804 @@
-<!-------------------------------Result Page----------------------------------->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sentiment Analysis</title>
-    <style>
-        /* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-/* Card container */
-.card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 40px;
-    max-width: 700px;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    animation: fadeInUp 0.8s ease-out;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Typography */
-h1 {
-    font-size: 2.2rem;
-    font-weight: 700;
-    margin-bottom: 30px;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-/* Results section styling */
-p {
-    font-size: 1.1rem;
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    background: rgba(102, 126, 234, 0.05);
-    border-radius: 12px;
-    border-left: 4px solid #667eea;
-    text-align: left;
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-p:hover {
-    background: rgba(102, 126, 234, 0.1);
-    transform: translateX(5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-}
-
-p:first-of-type {
-    border-left-color: #27ae60;
-    background: rgba(39, 174, 96, 0.05);
-}
-
-p:first-of-type:hover {
-    background: rgba(39, 174, 96, 0.1);
-}
-
-/* Different colors for different metrics */
-p:nth-of-type(2) { /* Overall Sentiment */
-    border-left-color: #e74c3c;
-    background: rgba(231, 76, 60, 0.05);
-}
-
-p:nth-of-type(2):hover {
-    background: rgba(231, 76, 60, 0.1);
-}
-
-p:nth-of-type(3) { /* Compound Score */
-    border-left-color: #f39c12;
-    background: rgba(243, 156, 18, 0.05);
-}
-
-p:nth-of-type(3):hover {
-    background: rgba(243, 156, 18, 0.1);
-}
-
-p:nth-of-type(4) { /* Positive */
-    border-left-color: #27ae60;
-    background: rgba(39, 174, 96, 0.05);
-}
-
-p:nth-of-type(4):hover {
-    background: rgba(39, 174, 96, 0.1);
-}
-
-p:nth-of-type(5) { /* Neutral */
-    border-left-color: #95a5a6;
-    background: rgba(149, 165, 166, 0.05);
-}
-
-p:nth-of-type(5):hover {
-    background: rgba(149, 165, 166, 0.1);
-}
-
-p:nth-of-type(6) { /* Negative */
-    border-left-color: #e74c3c;
-    background: rgba(231, 76, 60, 0.05);
-}
-
-p:nth-of-type(6):hover {
-    background: rgba(231, 76, 60, 0.1);
-}
-
-p:nth-of-type(7) { /* Subjectivity */
-    border-left-color: #9b59b6;
-    background: rgba(155, 89, 182, 0.05);
-}
-
-p:nth-of-type(7):hover {
-    background: rgba(155, 89, 182, 0.1);
-}
-
-/* Strong tags styling */
-strong {
-    color: #2c3e50;
-    font-weight: 600;
-    display: inline-block;
-    min-width: 140px;
-}
-
-/* Graph styling */
-img {
-    max-width: 100%;
-    height: auto;
-    margin: 30px 0 20px 0;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    border: 3px solid rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-}
-
-img:hover {
-    transform: scale(1.02);
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-/* Remove br styling */
-br {
-    display: none;
-}
-
-/* Link styling */
-a {
-    display: inline-block;
-    background: linear-gradient(135deg, #667eea, #764ba2);
-    color: white;
-    text-decoration: none;
-    padding: 15px 30px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    margin-top: 20px;
-    transition: all 0.3s ease;
-    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
-    position: relative;
-    overflow: hidden;
-}
-
-a:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
-    background: linear-gradient(135deg, #5a6fd8, #6a4190);
-}
-
-a:active {
-    transform: translateY(-1px);
-}
-
-a:focus {
-    outline: 3px solid rgba(102, 126, 234, 0.5);
-    outline-offset: 2px;
-}
-
-/* Link shine effect */
-a::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-a:hover::before {
-    left: 100%;
-}
-
-/* Results grid layout for better organization */
-.results-section {
-    display: grid;
-    gap: 15px;
-    margin-bottom: 30px;
-}
-
-/* Responsive design */
-@media (max-width: 768px) {
-    .card {
-        padding: 30px 20px;
-        margin: 10px;
-    }
-    
-    h1 {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-    }
-    
-    p {
-        font-size: 1rem;
-        padding: 12px 15px;
-        text-align: center;
-    }
-    
-    strong {
-        display: block;
-        margin-bottom: 5px;
-        min-width: auto;
-    }
-    
-    img {
-        margin: 20px 0 15px 0;
-    }
-    
-    a {
-        width: 100%;
-        text-align: center;
-        margin-top: 15px;
-    }
-}
-
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    
-    .card {
-        padding: 25px 15px;
-    }
-    
-    h1 {
-        font-size: 1.6rem;
-        margin-bottom: 20px;
-    }
-    
-    p {
-        font-size: 0.95rem;
-        padding: 10px 12px;
-    }
-    
-    strong {
-        font-size: 0.9rem;
-    }
-}
-
-/* Special styling for sentiment values based on their nature */
-p:nth-of-type(2) strong + text {
-    padding: 3px 8px;
-    border-radius: 15px;
-    font-weight: 600;
-}
-
-/* Animation for results appearing */
-p {
-    animation: slideInLeft 0.6s ease-out forwards;
-    animation-delay: calc(var(--i) * 0.1s);
-    opacity: 0;
-}
-
-p:nth-of-type(1) { --i: 0; animation-delay: 0.2s; }
-p:nth-of-type(2) { --i: 1; animation-delay: 0.3s; }
-p:nth-of-type(3) { --i: 2; animation-delay: 0.4s; }
-p:nth-of-type(4) { --i: 3; animation-delay: 0.5s; }
-p:nth-of-type(5) { --i: 4; animation-delay: 0.6s; }
-p:nth-of-type(6) { --i: 5; animation-delay: 0.7s; }
-p:nth-of-type(7) { --i: 6; animation-delay: 0.8s; }
-
-@keyframes slideInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-/* Accessibility improvements */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-    
-    p {
-        opacity: 1;
-    }
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .card {
-        background: white;
-        border: 2px solid #333;
-    }
-    
-    p {
-        background: #f8f9fa;
-        border-left-color: #333;
-    }
-    
-    a {
-        background: #333;
-        border: 2px solid #333;
-    }
-}
-    </style>
+    <title>Analysis Results - Sentiment AI</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-     <div class="card">
- <h1>Sentiment Analysis Result</h1>
- <p><strong>Text:</strong> {{ text }}</p>
- <p><strong>Overall Sentiment:</strong> {{ sentiment }}</p>
- <p><strong>Compound Score:</strong> {{ polarity }}</p>
- <p><strong>Positive:</strong> {{ pos }}</p>
- <p><strong>Neutral:</strong> {{ neu }}</p>
- <p><strong>Negative:</strong> {{ neg }}</p>
- <p><strong>Subjectivity:</strong> {{ subjectivity }}</p>
- <!--Graph-->
- <img src="{{ url_for('static', filename=graph) }}" alt="Sentiment Graph">
- <br>
- <a href="app.html">Analyze Another Text</a>
- </div>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-brand">
+                    <a href="home.html" class="logo">
+                        <i class="fas fa-brain"></i>
+                        <span>Sentiment Analysis</span>
+                    </a>
+                </div>
+                
+                <div class="nav-menu" id="navMenu">
+                    <ul class="nav-links">
+                        <li><a href="home.html" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="about.html" class="nav-link"><i class="fas fa-info-circle"></i> About</a></li>
+                        <li><a href="app.html" class="nav-link"><i class="fas fa-chart-line"></i> Analyze</a></li>
+                        <li><a href="contact.html" class="nav-link"><i class="fas fa-users"></i> Team</a></li>
+                    </ul>
+                </div>
+                
+                <div class="nav-actions">
+                    <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Analysis Report</h1>
+                    <p>Detailed sentiment analysis results with comprehensive insights and visualizations</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section class="section">
+            <div class="container">
+                <!-- Report Header -->
+                <div class="report-header">
+                    <div class="report-meta">
+                        <div class="report-title">
+                            <h2><i class="fas fa-chart-bar"></i> Sentiment Analysis Report</h2>
+                            <p class="report-date">Generated on <span id="reportDate"></span></p>
+                        </div>
+                        <div class="report-actions">
+                            <button class="btn btn-primary" onclick="exportReport()">
+                                <i class="fas fa-download"></i>
+                                Export Report
+                            </button>
+                            <button class="btn btn-secondary" onclick="printReport()">
+                                <i class="fas fa-print"></i>
+                                Print
+                            </button>
+                            <a href="app.html" class="btn btn-secondary">
+                                <i class="fas fa-plus"></i>
+                                New Analysis
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Cards -->
+                <div class="summary-grid">
+                    <div class="summary-card primary">
+                        <div class="summary-icon">
+                            <i class="fas fa-smile"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>Overall Sentiment</h3>
+                            <div class="summary-value" id="overallSentiment">Positive 😊</div>
+                            <div class="summary-description">Based on compound score analysis</div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>Compound Score</h3>
+                            <div class="summary-value" id="compoundScore">0.723</div>
+                            <div class="summary-description">Range: -1.0 to +1.0</div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>Subjectivity</h3>
+                            <div class="summary-value" id="subjectivity">0.456</div>
+                            <div class="summary-description">0 = Objective, 1 = Subjective</div>
+                        </div>
+                    </div>
+                    
+                    <div class="summary-card">
+                        <div class="summary-icon">
+                            <i class="fas fa-file-text"></i>
+                        </div>
+                        <div class="summary-content">
+                            <h3>Word Count</h3>
+                            <div class="summary-value" id="wordCount">127</div>
+                            <div class="summary-description">Total words analyzed</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Analysis -->
+                <div class="analysis-grid">
+                    <!-- Sentiment Breakdown -->
+                    <div class="analysis-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-pie"></i> Sentiment Breakdown</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="sentiment-breakdown">
+                                <div class="breakdown-item positive">
+                                    <div class="breakdown-label">
+                                        <i class="fas fa-smile"></i>
+                                        Positive
+                                    </div>
+                                    <div class="breakdown-value">65%</div>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill positive" style="width: 65%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="breakdown-item neutral">
+                                    <div class="breakdown-label">
+                                        <i class="fas fa-meh"></i>
+                                        Neutral
+                                    </div>
+                                    <div class="breakdown-value">25%</div>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill neutral" style="width: 25%"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="breakdown-item negative">
+                                    <div class="breakdown-label">
+                                        <i class="fas fa-frown"></i>
+                                        Negative
+                                    </div>
+                                    <div class="breakdown-value">10%</div>
+                                    <div class="breakdown-bar">
+                                        <div class="breakdown-fill negative" style="width: 10%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Visual Chart -->
+                    <div class="analysis-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-bar"></i> Visual Analysis</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="chart-container">
+                                <div class="chart-placeholder">
+                                    <div class="chart-bars">
+                                        <div class="chart-bar positive" style="height: 65%">
+                                            <div class="bar-label">Positive</div>
+                                            <div class="bar-value">65%</div>
+                                        </div>
+                                        <div class="chart-bar neutral" style="height: 25%">
+                                            <div class="bar-label">Neutral</div>
+                                            <div class="bar-value">25%</div>
+                                        </div>
+                                        <div class="chart-bar negative" style="height: 10%">
+                                            <div class="bar-label">Negative</div>
+                                            <div class="bar-value">10%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Original Text -->
+                <div class="analysis-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-file-text"></i> Original Text</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="original-text" id="originalText">
+                            I absolutely love this product! It's amazing and works perfectly. I'm so happy with my purchase and would definitely recommend it to others. The quality is outstanding and the customer service was excellent. This is exactly what I was looking for and it exceeded my expectations in every way.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Metrics -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h4><i class="fas fa-chart-line"></i> Compound Score Analysis</h4>
+                        </div>
+                        <div class="metric-content">
+                            <div class="score-explanation">
+                                <p>The compound score of <strong>0.723</strong> indicates a strongly positive sentiment. This score is calculated by combining multiple sentiment indicators and normalizing the result between -1 and +1.</p>
+                                <div class="score-range">
+                                    <div class="range-item negative">-1.0 (Most Negative)</div>
+                                    <div class="range-item neutral">0.0 (Neutral)</div>
+                                    <div class="range-item positive">+1.0 (Most Positive)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="metric-card">
+                        <div class="metric-header">
+                            <h4><i class="fas fa-percentage"></i> Subjectivity Analysis</h4>
+                        </div>
+                        <div class="metric-content">
+                            <div class="subjectivity-explanation">
+                                <p>The subjectivity score of <strong>0.456</strong> suggests the text is moderately subjective, containing both factual statements and personal opinions or emotions.</p>
+                                <div class="subjectivity-range">
+                                    <div class="range-item objective">0.0 (Very Objective)</div>
+                                    <div class="range-item subjective">1.0 (Very Subjective)</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Insights -->
+                <div class="insights-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-lightbulb"></i> Key Insights</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="insights-list">
+                            <div class="insight-item">
+                                <div class="insight-icon positive">
+                                    <i class="fas fa-thumbs-up"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h4>Strongly Positive Sentiment</h4>
+                                    <p>The text expresses overwhelmingly positive emotions with words like "love," "amazing," and "excellent" dominating the sentiment.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insight-item">
+                                <div class="insight-icon neutral">
+                                    <i class="fas fa-balance-scale"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h4>Moderate Subjectivity</h4>
+                                    <p>The text contains a balanced mix of factual statements and personal opinions, making it moderately subjective.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="insight-item">
+                                <div class="insight-icon info">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <div class="insight-content">
+                                    <h4>High Confidence</h4>
+                                    <p>The analysis shows high confidence in the sentiment classification due to clear emotional indicators throughout the text.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <div class="footer-copyright">
+                        <p>&copy; 2025 Sentiment Analysis. All rights reserved.</p>
+                        <p>Built with <i class="fas fa-heart" style="color: #e74c3c;"></i> for understanding emotions in text.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .report-header {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-2xl);
+            margin-bottom: var(--spacing-2xl);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .report-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: var(--spacing-lg);
+        }
+
+        .report-title h2 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        .report-title i {
+            color: var(--primary-color);
+        }
+
+        .report-date {
+            color: var(--text-muted);
+            margin: 0;
+        }
+
+        .report-actions {
+            display: flex;
+            gap: var(--spacing-md);
+            flex-wrap: wrap;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .summary-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-lg);
+            transition: all var(--transition-normal);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .summary-card.primary {
+            background: var(--primary-gradient);
+            color: var(--text-inverse);
+        }
+
+        .summary-icon {
+            font-size: 2.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .summary-card.primary .summary-icon {
+            color: var(--text-inverse);
+            -webkit-text-fill-color: var(--text-inverse);
+        }
+
+        .summary-content h3 {
+            font-size: 1rem;
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-secondary);
+        }
+
+        .summary-card.primary .summary-content h3 {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .summary-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: var(--spacing-xs);
+            color: var(--text-primary);
+        }
+
+        .summary-card.primary .summary-value {
+            color: var(--text-inverse);
+        }
+
+        .summary-description {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .summary-card.primary .summary-description {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .analysis-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: var(--spacing-xl);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .card-header h3 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin: 0;
+            color: var(--text-primary);
+        }
+
+        .card-header i {
+            color: var(--primary-color);
+        }
+
+        .card-body {
+            padding: var(--spacing-xl);
+        }
+
+        .sentiment-breakdown {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-lg);
+        }
+
+        .breakdown-item {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-sm);
+        }
+
+        .breakdown-label {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .breakdown-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            align-self: flex-end;
+        }
+
+        .breakdown-item.positive .breakdown-value {
+            color: var(--success-color);
+        }
+
+        .breakdown-item.neutral .breakdown-value {
+            color: var(--warning-color);
+        }
+
+        .breakdown-item.negative .breakdown-value {
+            color: var(--danger-color);
+        }
+
+        .breakdown-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+        }
+
+        .breakdown-fill {
+            height: 100%;
+            border-radius: var(--radius-sm);
+            transition: width 0.5s ease;
+        }
+
+        .breakdown-fill.positive {
+            background: var(--success-gradient);
+        }
+
+        .breakdown-fill.neutral {
+            background: var(--warning-gradient);
+        }
+
+        .breakdown-fill.negative {
+            background: var(--danger-gradient);
+        }
+
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: end;
+            justify-content: center;
+        }
+
+        .chart-bars {
+            display: flex;
+            align-items: end;
+            gap: var(--spacing-lg);
+            height: 100%;
+            width: 100%;
+        }
+
+        .chart-bar {
+            flex: 1;
+            border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            padding: var(--spacing-sm);
+            position: relative;
+            min-height: 40px;
+        }
+
+        .chart-bar.positive {
+            background: var(--success-gradient);
+        }
+
+        .chart-bar.neutral {
+            background: var(--warning-gradient);
+        }
+
+        .chart-bar.negative {
+            background: var(--danger-gradient);
+        }
+
+        .bar-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-inverse);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .bar-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-inverse);
+        }
+
+        .original-text {
+            background: var(--bg-secondary);
+            padding: var(--spacing-lg);
+            border-radius: var(--radius-lg);
+            border-left: 4px solid var(--primary-color);
+            font-style: italic;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-xl);
+            margin-bottom: var(--spacing-2xl);
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            padding: var(--spacing-xl);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .metric-header h4 {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-lg);
+            color: var(--text-primary);
+        }
+
+        .metric-header i {
+            color: var(--primary-color);
+        }
+
+        .score-range,
+        .subjectivity-range {
+            display: flex;
+            justify-content: space-between;
+            margin-top: var(--spacing-md);
+            font-size: 0.875rem;
+        }
+
+        .range-item {
+            padding: var(--spacing-xs) var(--spacing-sm);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+        }
+
+        .range-item.negative {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--danger-color);
+        }
+
+        .range-item.neutral {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .range-item.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .range-item.objective {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-color);
+        }
+
+        .range-item.subjective {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .insights-card {
+            background: var(--bg-card);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+
+        .insights-list {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xl);
+        }
+
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            gap: var(--spacing-lg);
+        }
+
+        .insight-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .insight-icon.positive {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+        }
+
+        .insight-icon.neutral {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--warning-color);
+        }
+
+        .insight-icon.info {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--info-color);
+        }
+
+        .insight-content h4 {
+            margin-bottom: var(--spacing-sm);
+            color: var(--text-primary);
+        }
+
+        .insight-content p {
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .report-meta {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .report-actions {
+                width: 100%;
+                justify-content: stretch;
+            }
+            
+            .report-actions .btn {
+                flex: 1;
+            }
+            
+            .analysis-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-bars {
+                gap: var(--spacing-sm);
+            }
+        }
+    </style>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuToggle').classList.remove('active');
+            });
+        });
+
+        // Theme functionality removed - using single light theme
+
+        // Set report date
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const dateString = now.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+            document.getElementById('reportDate').textContent = dateString;
+        });
+
+        // Export report function
+        function exportReport() {
+            const reportData = {
+                timestamp: new Date().toISOString(),
+                overallSentiment: 'Positive 😊',
+                compoundScore: 0.723,
+                subjectivity: 0.456,
+                wordCount: 127,
+                breakdown: {
+                    positive: 65,
+                    neutral: 25,
+                    negative: 10
+                },
+                originalText: document.getElementById('originalText').textContent,
+                insights: [
+                    'Strongly Positive Sentiment',
+                    'Moderate Subjectivity',
+                    'High Confidence'
+                ]
+            };
+            
+            const dataStr = JSON.stringify(reportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `sentiment-report-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+
+        // Print report function
+        function printReport() {
+            window.print();
+        }
+    </script>
 </body>
 </html>
