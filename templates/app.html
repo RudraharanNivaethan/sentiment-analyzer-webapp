@@ -36,33 +36,37 @@
                                 <span id="charCount">0</span> characters
                             </div>
                         </div>
-                        
-                        <div class="form-group">
-                            <textarea 
-                                class="form-input form-textarea" 
-                                id="textInput" 
-                                placeholder="Enter or paste your text here to analyze its sentiment..."
-                                rows="8"
-                            ></textarea>
-                        </div>
-                        
-                        <div class="input-actions">
-                            <button class="btn btn-primary" id="analyzeBtn" onclick="analyzeSentiment()">
-                                <i class="fas fa-play"></i>
-                                <span id="btnText">Analyze Sentiment</span>
-                                <span id="btnLoading" class="loading hidden"></span>
-                            </button>
-                            
-                            <button class="btn btn-secondary" onclick="clearText()">
-                                <i class="fas fa-trash"></i>
-                                Clear
-                            </button>
-                            
-                            <button class="btn btn-secondary" onclick="loadSampleText()">
-                                <i class="fas fa-file-text"></i>
-                                Sample Text
-                            </button>
-                        </div>
+
+                        <!-- Form to send text to backend -->
+                        <form action="{{ url_for('analyze_sentiment') }}" method="POST">
+                            <!-- important: name must match request.form.get('text') -->
+                            <div class="form-group">
+                                <textarea 
+                                    class="form-input form-textarea" 
+                                    id="textInput" 
+                                    name="text"    
+                                    placeholder="Enter or paste your text here to analyze its sentiment..."
+                                    rows="8"
+                                ></textarea>
+                            </div>
+
+                            <div class="input-actions">
+                                <button class="btn btn-primary" type="submit">
+                                    <i class="fas fa-play"></i>
+                                    Analyze Sentiment
+                                </button>
+            
+                                <button class="btn btn-secondary" type="button" onclick="clearText()">
+                                    <i class="fas fa-trash"></i>
+                                    Clear
+                                </button>
+
+                                <button class="btn btn-secondary" type="button" onclick="loadSampleText()">
+                                    <i class="fas fa-file-text"></i>
+                                    Sample Text
+                                 </button>
+                           </div>
+                        </form>
                     </div>
 
                     <!-- Results Panel -->
@@ -132,319 +136,6 @@
         </section>
     </main>
     {% include 'footer.html' %}
-
-    <script>
-        // Global variables
-        let currentResults = null;
-
-        // Mobile menu toggle
-        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
-            const navMenu = document.getElementById('navMenu');
-            navMenu.classList.toggle('active');
-            this.classList.toggle('active');
-        });
-
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', () => {
-                document.getElementById('navMenu').classList.remove('active');
-                document.getElementById('mobileMenuToggle').classList.remove('active');
-            });
-        });
-
-        // Theme functionality removed - using single light theme
-
-        // Character counter
-        document.getElementById('textInput').addEventListener('input', function() {
-            const charCount = this.value.length;
-            document.getElementById('charCount').textContent = charCount;
-        });
-
-        // Auto-resize textarea
-        document.getElementById('textInput').addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = this.scrollHeight + 'px';
-        });
-
-        // Clear text function
-        function clearText() {
-            document.getElementById('textInput').value = '';
-            document.getElementById('charCount').textContent = '0';
-            document.getElementById('textInput').style.height = 'auto';
-            document.getElementById('resultsContainer').innerHTML = `
-                <div class="no-results">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>No Analysis Yet</h3>
-                    <p>Enter some text and click "Analyze Sentiment" to see detailed results</p>
-                </div>
-            `;
-            document.getElementById('exportBtn').disabled = true;
-            currentResults = null;
-        }
-
-        // Load sample text
-        function loadSampleText() {
-            const sampleTexts = [
-                "I absolutely love this product! It's amazing and works perfectly. I'm so happy with my purchase and would definitely recommend it to others. The quality is outstanding and the customer service was excellent.",
-                "This is terrible. I hate it so much. The quality is awful and I'm very disappointed. Worst purchase ever. The product doesn't work as advertised and the customer support is non-existent.",
-                "The weather is okay today. It's neither too hot nor too cold. I think it's a normal day with average conditions. Nothing particularly exciting or disappointing about it.",
-                "I'm really excited about this new project! It has so much potential and I can't wait to see how it develops. The team is fantastic and the technology is cutting-edge.",
-                "I'm feeling quite frustrated with this situation. The delays are unacceptable and the communication has been poor. I expected better service and I'm not satisfied with the current state of things."
-            ];
-            
-            const randomText = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
-            document.getElementById('textInput').value = randomText;
-            document.getElementById('charCount').textContent = randomText.length;
-            
-            // Trigger auto-resize
-            const textarea = document.getElementById('textInput');
-            textarea.style.height = 'auto';
-            textarea.style.height = textarea.scrollHeight + 'px';
-        }
-
-        // Analyze sentiment function
-        function analyzeSentiment() {
-            const textInput = document.getElementById('textInput');
-            const text = textInput.value.trim();
-            
-            if (!text) {
-                alert('Please enter some text to analyze.');
-                return;
-            }
-
-            // Show loading state
-            const btnText = document.getElementById('btnText');
-            const btnLoading = document.getElementById('btnLoading');
-            const analyzeBtn = document.getElementById('analyzeBtn');
-            
-            btnText.classList.add('hidden');
-            btnLoading.classList.remove('hidden');
-            analyzeBtn.disabled = true;
-
-            // Simulate API call delay
-            setTimeout(() => {
-                // Mock sentiment analysis results
-                const mockResults = generateMockSentiment(text);
-                currentResults = mockResults;
-                displayResults(mockResults);
-                
-                // Hide loading state
-                btnText.classList.remove('hidden');
-                btnLoading.classList.add('hidden');
-                analyzeBtn.disabled = false;
-                
-                // Enable export button
-                document.getElementById('exportBtn').disabled = false;
-            }, 2000);
-        }
-
-        // Generate mock sentiment analysis results
-        function generateMockSentiment(text) {
-            // Simple mock analysis based on text content
-            const words = text.toLowerCase().split(/\s+/);
-            const positiveWords = ['good', 'great', 'excellent', 'amazing', 'wonderful', 'fantastic', 'love', 'like', 'happy', 'joy', 'pleased', 'satisfied', 'perfect', 'awesome', 'brilliant', 'outstanding', 'excited', 'fantastic', 'superb', 'marvelous'];
-            const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'dislike', 'angry', 'sad', 'disappointed', 'frustrated', 'horrible', 'worst', 'disgusting', 'annoying', 'upset', 'mad', 'frustrated', 'unacceptable', 'poor', 'unsatisfied'];
-            
-            let positiveCount = 0;
-            let negativeCount = 0;
-            
-            words.forEach(word => {
-                if (positiveWords.includes(word)) positiveCount++;
-                if (negativeWords.includes(word)) negativeCount++;
-            });
-            
-            const totalWords = words.length;
-            const positiveRatio = positiveCount / totalWords;
-            const negativeRatio = negativeCount / totalWords;
-            const neutralRatio = Math.max(0, 1 - positiveRatio - negativeRatio);
-            
-            // Calculate compound score (-1 to 1)
-            const compoundScore = (positiveRatio - negativeRatio) * 0.8 + (Math.random() - 0.5) * 0.4;
-            const clampedScore = Math.max(-1, Math.min(1, compoundScore));
-            
-            // Determine overall sentiment
-            let overallSentiment, sentimentClass, sentimentEmoji;
-            if (clampedScore > 0.1) {
-                overallSentiment = 'Positive';
-                sentimentClass = 'sentiment-positive';
-                sentimentEmoji = '😊';
-            } else if (clampedScore < -0.1) {
-                overallSentiment = 'Negative';
-                sentimentClass = 'sentiment-negative';
-                sentimentEmoji = '😢';
-            } else {
-                overallSentiment = 'Neutral';
-                sentimentClass = 'sentiment-neutral';
-                sentimentEmoji = '😐';
-            }
-            
-            // Calculate subjectivity (0 to 1)
-            const subjectivity = Math.min(1, (positiveCount + negativeCount) / totalWords * 2 + Math.random() * 0.3);
-            
-            return {
-                overallSentiment,
-                sentimentClass,
-                sentimentEmoji,
-                compoundScore: clampedScore,
-                subjectivity,
-                positivePercent: Math.round(positiveRatio * 100),
-                neutralPercent: Math.round(neutralRatio * 100),
-                negativePercent: Math.round(negativeRatio * 100),
-                wordCount: totalWords,
-                analyzedText: text
-            };
-        }
-
-        // Display analysis results
-        function displayResults(results) {
-            const resultsContainer = document.getElementById('resultsContainer');
-            
-            resultsContainer.innerHTML = `
-                <div class="result-item">
-                    <div class="result-header">
-                        <div class="result-label">
-                            <i class="fas fa-smile"></i>
-                            Overall Sentiment
-                        </div>
-                    </div>
-                    <div class="result-value ${results.sentimentClass}">
-                        ${results.sentimentEmoji} ${results.overallSentiment}
-                    </div>
-                </div>
-                
-                <div class="result-item">
-                    <div class="result-header">
-                        <div class="result-label">
-                            <i class="fas fa-chart-line"></i>
-                            Compound Score
-                        </div>
-                        <div class="result-value">${results.compoundScore.toFixed(3)}</div>
-                    </div>
-                    <div class="score-bar">
-                        <div class="score-fill ${results.compoundScore > 0.1 ? 'score-positive' : results.compoundScore < -0.1 ? 'score-negative' : 'score-neutral'}" 
-                             style="width: ${((results.compoundScore + 1) / 2) * 100}%"></div>
-                    </div>
-                </div>
-                
-                <div class="result-item">
-                    <div class="result-header">
-                        <div class="result-label">
-                            <i class="fas fa-percentage"></i>
-                            Subjectivity
-                        </div>
-                        <div class="result-value">${results.subjectivity.toFixed(3)}</div>
-                    </div>
-                    <div class="score-bar">
-                        <div class="score-fill score-neutral" style="width: ${results.subjectivity * 100}%"></div>
-                    </div>
-                </div>
-                
-                <div class="result-item">
-                    <div class="result-header">
-                        <div class="result-label">
-                            <i class="fas fa-chart-pie"></i>
-                            Sentiment Breakdown
-                        </div>
-                    </div>
-                    <div class="sentiment-breakdown">
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Positive</span>
-                            <span class="breakdown-value sentiment-positive">${results.positivePercent}%</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Neutral</span>
-                            <span class="breakdown-value sentiment-neutral">${results.neutralPercent}%</span>
-                        </div>
-                        <div class="breakdown-item">
-                            <span class="breakdown-label">Negative</span>
-                            <span class="breakdown-value sentiment-negative">${results.negativePercent}%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="chart-container">
-                    <h4 style="margin-bottom: 1rem; color: var(--text-primary); text-align:center;">Sentiment Distribution</h4>
-                    <div class="sentiment-chart">
-                        <div class="sentiment-bar-group">
-                            <div class="sentiment-bar positive" style="height: ${results.positivePercent}px;"></div>
-                            <div class="sentiment-label">Positive</div>
-                            <div class="sentiment-value">${results.positivePercent}%</div>
-                        </div>
-                        <div class="sentiment-bar-group">
-                            <div class="sentiment-bar neutral" style="height: ${results.neutralPercent}px;"></div>
-                            <div class="sentiment-label">Neutral</div>
-                            <div class="sentiment-value">${results.neutralPercent}%</div>
-                        </div>
-                        <div class="sentiment-bar-group">
-                            <div class="sentiment-bar negative" style="height: ${results.negativePercent}px;"></div>
-                            <div class="sentiment-label">Negative</div>
-                            <div class="sentiment-value">${results.negativePercent}%</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Export results function
-        function exportResults() {
-            if (!currentResults) return;
-            
-            const exportData = {
-                timestamp: new Date().toISOString(),
-                text: currentResults.analyzedText,
-                wordCount: currentResults.wordCount,
-                overallSentiment: currentResults.overallSentiment,
-                compoundScore: currentResults.compoundScore,
-                subjectivity: currentResults.subjectivity,
-                breakdown: {
-                    positive: currentResults.positivePercent,
-                    neutral: currentResults.neutralPercent,
-                    negative: currentResults.negativePercent
-                }
-            };
-            
-            const dataStr = JSON.stringify(exportData, null, 2);
-            const dataBlob = new Blob([dataStr], {type: 'application/json'});
-            const url = URL.createObjectURL(dataBlob);
-            
-            const link = document.createElement('a');
-            link.href = url;
-            link.download = `sentiment-analysis-${new Date().toISOString().split('T')[0]}.json`;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-            URL.revokeObjectURL(url);
-        }
-
-        // Add styles for breakdown
-        const style = document.createElement('style');
-        style.textContent = `
-            .sentiment-breakdown {
-                display: flex;
-                flex-direction: column;
-                gap: var(--spacing-sm);
-            }
-            
-            .breakdown-item {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: var(--spacing-sm);
-                background: var(--bg-secondary);
-                border-radius: var(--radius-md);
-            }
-            
-            .breakdown-label {
-                font-weight: 500;
-                color: var(--text-secondary);
-            }
-            
-            .breakdown-value {
-                font-weight: 700;
-                font-size: 1.125rem;
-            }
-        `;
-        document.head.appendChild(style);
-    </script>
+    <script src="{{url_for('static', filename='js/app.js')}}"></script>
 </body>
 </html>

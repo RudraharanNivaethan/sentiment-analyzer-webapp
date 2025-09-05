@@ -34,6 +34,7 @@
                             <h2><i class="fas fa-chart-bar"></i> Sentiment Analysis Report</h2>
                             <p class="report-date">Generated on <span id="reportDate"></span></p>
                         </div>
+                        <!---
                         <div class="report-actions">
                             <button class="btn btn-primary" onclick="exportReport()">
                                 <i class="fas fa-download"></i> Export Report
@@ -45,6 +46,7 @@
                                 <i class="fas fa-plus"></i> New Analysis
                             </a>
                         </div>
+                        -->
                     </div>
                 </div>
 
@@ -57,13 +59,7 @@
                         <div class="summary-content">
                             <h3>Overall Sentiment</h3>
                             <div class="summary-value" id="overallSentiment">
-                                {% if polarity >= 0.05 %}
-                                    Positive 😊
-                                {% elif polarity <= -0.05 %}
-                                    Negative 😢
-                                {% else %}
-                                    Neutral 😐
-                                {% endif %}
+                                {{ sentiment }}
                             </div>
                             <div class="summary-description">Based on compound score analysis</div>
                         </div>
@@ -87,13 +83,7 @@
                         <div class="summary-content">
                             <h3>Subjectivity</h3>
                             <div class="summary-value" id="subjectivity">
-                                {% if subjectivity < 0.4 %}
-                                    Objective ({{ "%.3f"|format(subjectivity) }})
-                                {% elif subjectivity < 0.7 %}
-                                    Moderate ({{ "%.3f"|format(subjectivity) }})
-                                {% else %}
-                                    Subjective ({{ "%.3f"|format(subjectivity) }})
-                                {% endif %}
+                                {{subjectivity_class}} ({{ "%.3f"|format(subjectivity) }})
                             </div>
                             <div class="summary-description">0 = Objective, 1 = Subjective</div>
                         </div>
@@ -124,7 +114,7 @@
                                     <div class="breakdown-label">
                                         <i class="fas fa-smile"></i> Positive
                                     </div>
-                                    <div class="breakdown-value">{{ "%.1f"|format(pos * 100) }}%</div>
+                                    <div class="breakdown-value">{{ "%.2f"|format(pos * 100) }}%</div>
                                     <div class="breakdown-bar">
                                         <div class="breakdown-fill positive" style="width: {{ pos * 100 }}%"></div>
                                     </div>
@@ -134,7 +124,7 @@
                                     <div class="breakdown-label">
                                         <i class="fas fa-meh"></i> Neutral
                                     </div>
-                                    <div class="breakdown-value">{{ "%.1f"|format(neu * 100) }}%</div>
+                                    <div class="breakdown-value">{{ "%.2f"|format(neu * 100) }}%</div>
                                     <div class="breakdown-bar">
                                         <div class="breakdown-fill neutral" style="width: {{ neu * 100 }}%"></div>
                                     </div>
@@ -144,7 +134,7 @@
                                     <div class="breakdown-label">
                                         <i class="fas fa-frown"></i> Negative
                                     </div>
-                                    <div class="breakdown-value">{{ "%.1f"|format(neg * 100) }}%</div>
+                                    <div class="breakdown-value">{{ "%.2f"|format(neg * 100) }}%</div>
                                     <div class="breakdown-bar">
                                         <div class="breakdown-fill negative" style="width: {{ neg * 100 }}%"></div>
                                     </div>
@@ -164,15 +154,15 @@
                                     <div class="chart-bars">
                                         <div class="chart-bar positive" style="height: {{ pos * 100 }}%">
                                             <div class="bar-label">Positive</div>
-                                            <div class="bar-value">{{ "%.1f"|format(pos * 100) }}%</div>
+                                            <div class="bar-value">{{ "%.2f"|format(pos * 100) }}%</div>
                                         </div>
                                         <div class="chart-bar neutral" style="height: {{ neu * 100 }}%">
                                             <div class="bar-label">Neutral</div>
-                                            <div class="bar-value">{{ "%.1f"|format(neu * 100) }}%</div>
+                                            <div class="bar-value">{{ "%.2f"|format(neu * 100) }}%</div>
                                         </div>
                                         <div class="chart-bar negative" style="height: {{ neg * 100 }}%">
                                             <div class="bar-label">Negative</div>
-                                            <div class="bar-value">{{ "%.1f"|format(neg * 100) }}%</div>
+                                            <div class="bar-value">{{ "%.2f"|format(neg * 100) }}%</div>
                                         </div>
                                     </div>
                                 </div>
@@ -229,6 +219,7 @@
                             <h4><i class="fas fa-chart-line"></i> Compound Score Analysis</h4>
                         </div>
                         <div class="metric-content">
+                            <!--
                             <div class="score-explanation">
                                 <p>The compound score of <strong>{{ "%.3f"|format(polarity) }}</strong> indicates
                                 {% if polarity >= 0.05 %}
@@ -245,6 +236,7 @@
                                     <div class="range-item positive">+1.0 (Most Positive)</div>
                                 </div>
                             </div>
+                        -->
                         </div>
                     </div>
                     
@@ -255,13 +247,7 @@
                         <div class="metric-content">
                             <div class="subjectivity-explanation">
                                 <p>The subjectivity score of <strong>{{ "%.3f"|format(subjectivity) }}</strong> suggests the text is 
-                                {% if subjectivity < 0.4 %}
-                                    mostly objective.
-                                {% elif subjectivity < 0.7 %}
-                                    moderately subjective.
-                                {% else %}
-                                    very subjective.
-                                {% endif %}</p>
+                                {{ subjectivity_class}}
                                 <div class="subjectivity-range">
                                     <div class="range-item objective">0.0 (Very Objective)</div>
                                     <div class="range-item subjective">1.0 (Very Subjective)</div>
@@ -329,66 +315,6 @@
     </main>
 
     {% include 'footer.html' %}
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Set report generation date
-            const now = new Date();
-            const dateString = now.toLocaleDateString('en-US', { 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric', 
-                hour: '2-digit', 
-                minute: '2-digit'
-            });
-            const reportDateElement = document.getElementById('reportDate');
-            if (reportDateElement) {
-                reportDateElement.textContent = dateString;
-            }
-        });
-
-        function exportReport() {
-            try {
-                // Collect data from the page
-                const reportData = {
-                    timestamp: new Date().toISOString(),
-                    overallSentiment: document.getElementById('overallSentiment')?.textContent?.trim() || 'Unknown',
-                    compoundScore: parseFloat(document.getElementById('compoundScore')?.textContent) || 0,
-                    subjectivity: document.getElementById('subjectivity')?.textContent?.trim() || 'Unknown',
-                    wordCount: parseInt(document.getElementById('wordCount')?.textContent) || 0,
-                    breakdown: {
-                        positive: parseFloat(document.querySelector('.breakdown-item.positive .breakdown-value')?.textContent) || 0,
-                        neutral: parseFloat(document.querySelector('.breakdown-item.neutral .breakdown-value')?.textContent) || 0,
-                        negative: parseFloat(document.querySelector('.breakdown-item.negative .breakdown-value')?.textContent) || 0
-                    },
-                    originalText: document.getElementById('originalText')?.textContent?.trim() || ''
-                };
-                
-                // Create and download the file
-                const dataStr = JSON.stringify(reportData, null, 2);
-                const dataBlob = new Blob([dataStr], {type: 'application/json'});
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = `sentiment-report-${new Date().toISOString().split('T')[0]}.json`;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-            } catch (error) {
-                console.error('Error exporting report:', error);
-                alert('An error occurred while exporting the report. Please try again.');
-            }
-        }
-
-        function printReport() {
-            try {
-                window.print();
-            } catch (error) {
-                console.error('Error printing report:', error);
-                alert('An error occurred while printing the report. Please try again.');
-            }
-        }
-    </script>
+    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
 </body>
 </html>

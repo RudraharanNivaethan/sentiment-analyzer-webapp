@@ -38,10 +38,10 @@ def analyze_sentiment():
     try:
         # Get sentiment and VADER scores
         sentiment, scores = get_sentiment(text)
-        polarity = scores['compound'] # Compound score for overall sentiment
-        pos = scores['pos'] # Fraction of text that is positive (0 to 1)
-        neu = scores['neu'] # Fraction of text that is neutral (0 to 1)
-        neg = scores['neg'] # Fraction of text that is negative (0 to 1)
+        polarity = float(scores['compound']) # Compound score for overall sentiment
+        pos = float(scores['pos']) # Fraction of text that is positive (0 to 1)
+        neu = float(scores['neu']) # Fraction of text that is neutral (0 to 1)
+        neg = float(scores['neg']) # Fraction of text that is negative (0 to 1)
 
         # Get Subjectivity and classification
         subjectivity, subjectivity_class = get_subjectivity(text)

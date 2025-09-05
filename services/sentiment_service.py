@@ -27,6 +27,8 @@ def get_subjectivity(text):
     # Subjectivity Classification
     if subjectivity < 0.5:
         subjectivity_class = "Objective"
+    elif subjectivity < 0.75:
+        subjectivity_class = "Moderately Subjective"
     else:
-        subjectivity_class = "Subjective"
+        subjectivity_class = "Highly Subjective"
     return subjectivity, subjectivity_class
