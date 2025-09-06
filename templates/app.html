@@ -2,140 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Analyze Text - Sentiment AI</title>
-    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/app.css')}}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Sentiment Analysis App</title>
+    <!-- Link CSS -->
+    <!--<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
 </head>
 <body>
-    {% include 'header.html' %}
+    <h1>Sentiment Analysis</h1>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1>Text Sentiment Analysis</h1>
-                    <p>Analyze the emotional tone and subjectivity of any text with our advanced AI-powered sentiment analysis tool</p>
-                </div>
-            </div>
-        </section>
+    <form id="analyzeForm">
+        <textarea id="text" rows="5" placeholder="Enter text here..."></textarea><br>
+        <button type="submit">Analyze</button>
+    </form>
 
-        <!-- Analysis Section -->
-        <section class="section">
-            <div class="container">
-                <div class="analysis-container">
-                    <!-- Input Panel -->
-                    <div class="input-panel">
-                        <div class="panel-header">
-                            <h2><i class="fas fa-edit"></i> Input Text</h2>
-                            <div class="text-stats">
-                                <span id="charCount">0</span> characters
-                            </div>
-                        </div>
+    <div id="result"></div>
 
-                        <!-- Form to send text to backend -->
-                        <form action="{{ url_for('analyze_sentiment') }}" method="POST">
-                            <!-- important: name must match request.form.get('text') -->
-                            <div class="form-group">
-                                <textarea 
-                                    class="form-input form-textarea" 
-                                    id="textInput" 
-                                    name="text"    
-                                    placeholder="Enter or paste your text here to analyze its sentiment..."
-                                    rows="8"
-                                ></textarea>
-                            </div>
+    <button id="exportBtn" style="display:none;">Export PDF</button>
 
-                            <div class="input-actions">
-                                <button class="btn btn-primary" type="submit">
-                                    <i class="fas fa-play"></i>
-                                    Analyze Sentiment
-                                </button>
-            
-                                <button class="btn btn-secondary" type="button" onclick="clearText()">
-                                    <i class="fas fa-trash"></i>
-                                    Clear
-                                </button>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-                                <button class="btn btn-secondary" type="button" onclick="loadSampleText()">
-                                    <i class="fas fa-file-text"></i>
-                                    Sample Text
-                                 </button>
-                           </div>
-                        </form>
-                    </div>
-
-                    <!-- Results Panel -->
-                    <div class="results-panel">
-                        <div class="panel-header">
-                            <h2><i class="fas fa-chart-bar"></i> Analysis Results</h2>
-                            <button class="btn btn-sm btn-secondary" id="exportBtn" onclick="exportResults()" disabled>
-                                <i class="fas fa-download"></i>
-                                Export
-                            </button>
-                        </div>
-                        
-                        <div id="resultsContainer">
-                            <div class="no-results">
-                                <i class="fas fa-chart-line"></i>
-                                <h3>No Analysis Yet</h3>
-                                <p>Enter some text and click "Analyze Sentiment" to see detailed results</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="section bg-secondary">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <h2>What You'll Get</h2>
-                    <p class="text-secondary">Comprehensive sentiment analysis with detailed insights</p>
-                </div>
-                
-                <div class="grid grid-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3>Compound Score</h3>
-                        <p>Overall sentiment score from -1 (negative) to +1 (positive)</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                        <h3>Sentiment Category</h3>
-                        <p>Clear classification as Positive, Neutral, or Negative</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <h3>Subjectivity</h3>
-                        <p>How opinionated or factual your text is (0-1 scale)</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h3>Visual Breakdown</h3>
-                        <p>Beautiful charts showing sentiment distribution</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-    {% include 'footer.html' %}
-    <script src="{{url_for('static', filename='js/app.js')}}"></script>
+    <!-- Link JS -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

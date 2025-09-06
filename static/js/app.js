@@ -1,138 +1,103 @@
-// Global variable to store latest results
-let currentResults = null;
+let lastResult = {}; // store last analysis
+let sentimentChart = null; // store Chart.js instance
 
-// Mobile menu toggle
-const mobileToggle = document.getElementById('mobileMenuToggle');
-const navMenu = document.getElementById('navMenu');
+document.getElementById("analyzeForm").addEventListener("submit", async function(e) {
+    e.preventDefault(); // stop reload
 
-if (mobileToggle) {
-    mobileToggle.addEventListener('click', () => {
-        navMenu.classList.toggle('active');
-        mobileToggle.classList.toggle('active');
+    let text = document.getElementById("text").value;
+
+    let response = await fetch("/analyze_sentiment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: text })
     });
-}
 
-// Close mobile menu when clicking a link
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => {
-        if (navMenu) navMenu.classList.remove('active');
-        if (mobileToggle) mobileToggle.classList.remove('active');
-    });
-});
+    let data = await response.json();
 
-// Textarea auto-resize and character counter
-const textInput = document.getElementById('textInput');
-const charCount = document.getElementById('charCount');
-
-if (textInput) {
-    textInput.addEventListener('input', function() {
-        // Auto-resize
-        this.style.height = 'auto';
-        this.style.height = this.scrollHeight + 'px';
-
-        // Character count
-        if (charCount) charCount.textContent = this.value.length;
-    });
-}
-
-// Clear text function
-function clearText() {
-    if (textInput) textInput.value = '';
-    if (charCount) charCount.textContent = '0';
-    if (textInput) textInput.style.height = 'auto';
-
-    const resultsContainer = document.getElementById('resultsContainer');
-    if (resultsContainer) {
-        resultsContainer.innerHTML = `
-            <div class="no-results">
-                <i class="fas fa-chart-line"></i>
-                <h3>No Analysis Yet</h3>
-                <p>Enter some text and click "Analyze Sentiment" to see detailed results</p>
-            </div>
-        `;
-    }
-
-    const exportBtn = document.getElementById('exportBtn');
-    if (exportBtn) exportBtn.disabled = true;
-
-    currentResults = null;
-}
-
-// Load sample text
-function loadSampleText() {
-    const sampleTexts = [
-        "I absolutely love this product! It's amazing and works perfectly.",
-        "This is terrible. I hate it so much. The quality is awful.",
-        "The weather is okay today. Nothing particularly exciting or disappointing.",
-        "I'm really excited about this new project! It has so much potential.",
-        "I'm feeling quite frustrated with this situation. The delays are unacceptable."
-    ];
-
-    const randomText = sampleTexts[Math.floor(Math.random() * sampleTexts.length)];
-    if (textInput) textInput.value = randomText;
-    if (charCount) charCount.textContent = randomText.length;
-
-    // Trigger auto-resize
-    if (textInput) {
-        textInput.style.height = 'auto';
-        textInput.style.height = textInput.scrollHeight + 'px';
-    }
-}
-
-// Export results to JSON
-function exportResults() {
-    if (!currentResults) return;
-
-    const exportData = {
-        timestamp: new Date().toISOString(),
-        text: currentResults.analyzedText,
-        wordCount: currentResults.wordCount,
-        overallSentiment: currentResults.overallSentiment,
-        compoundScore: currentResults.compoundScore,
-        subjectivity: currentResults.subjectivity,
-        breakdown: {
-            positive: currentResults.positivePercent,
-            neutral: currentResults.neutralPercent,
-            negative: currentResults.negativePercent
-        }
+    // Store result for export
+    lastResult = {
+        text: text,
+        sentiment: data.sentiment,
+        subjectivity: data.subjectivity,
+        subjectivity_class: data.subjectivity_class,
+        compound : data.compound,
+        pos: data.pos,
+        neg: data.neg,
+        neu: data.neu
     };
 
-    const dataStr = JSON.stringify(exportData, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
+    // Show results
+    let resultDiv = document.getElementById("result");
+    resultDiv.style.display = "block";
+    resultDiv.innerHTML = `
+        <h2>Result</h2>
+        <p><strong>Overall Sentiment:</strong> ${data.sentiment}</p>
+        <p><strong>Nature of Text:</strong> ${data.subjectivity_class}</p>
+        <p><strong>Compound Score:</strong> ${data.compound}</p>
+        <p><strong>Subjectivity:</strong> ${data.subjectivity}</p>
+        <h3>Sentiiment Breakdown</h3>
+        <p><strong>Positive:</strong> ${data.pos}</p>
+        <p><strong>Neutral:</strong> ${data.neu}</p>
+        <p><strong>Negative:</strong> ${data.neg}</p><br>
+        <!-- Chart container -->
+        <div id="chartContainer" style="width: 50%; margin-top: 20px; display:none;text-align:center;">
+          <canvas id="sentimentChart"></canvas>
+        </div>
+    `;
 
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `sentiment-analysis-${new Date().toISOString().split('T')[0]}.json`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    // Draw Chart
+    drawChart(data.pos, data.neu, data.neg);
+
+    // Show export button
+    document.getElementById("exportBtn").style.display = "inline-block";
+});
+
+// Function to draw Chart.js bar chart
+function drawChart(pos, neu, neg) {
+    let ctx = document.getElementById("sentimentChart").getContext("2d");
+    document.getElementById("chartContainer").style.display = "block";
+
+    if (sentimentChart) {
+        sentimentChart.destroy(); // remove old chart
+    }
+
+    sentimentChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Positive', 'Neutral', 'Negative'],
+            datasets: [{
+                label: 'Sentiment Scores',
+                data: [pos, neu, neg],
+                backgroundColor: ['green', 'blue', 'red']
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 1
+                }
+            }
+        }
+    });
 }
 
-// Optional: Apply basic styles for sentiment breakdown dynamically
-const style = document.createElement('style');
-style.textContent = `
-    .sentiment-breakdown {
-        display: flex;
-        flex-direction: column;
-        gap: var(--spacing-sm);
-    }
-    .breakdown-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-sm);
-        background: var(--bg-secondary);
-        border-radius: var(--radius-md);
-    }
-    .breakdown-label {
-        font-weight: 500;
-        color: var(--text-secondary);
-    }
-    .breakdown-value {
-        font-weight: 700;
-        font-size: 1.125rem;
-    }
-`;
-document.head.appendChild(style);
+// Handle Export PDF
+document.getElementById("exportBtn").addEventListener("click", async function() {
+    let response = await fetch("/export", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(lastResult)
+    });
+
+    // Download the PDF
+    let blob = await response.blob();
+    let url = window.URL.createObjectURL(blob);
+    let a = document.createElement("a");
+    a.href = url;
+    a.download = "sentiment_report.pdf";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+});

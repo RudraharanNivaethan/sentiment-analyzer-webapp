@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sentiment Analysis Report</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/report_template.css') }}">
+</head>
+<body>
+    <h1>Sentiment Analysis Report</h1>
+
+    <div class="section"><span class="label">Text:</span> {{ text }}</div>
+    <div class="section"><span class="label">Overall Sentiment:</span> {{ sentiment }}</div>
+    <div class="section"><span class="label">Subjectivity:</span> {{ subjectivity }}</div>
+
+    <div class="section">
+        <h3>Detailed Sentiment Scores</h3>
+        <table class="scores-table">
+            <tr><th>Positive</th><th>Neutral</th><th>Negative</th></tr>
+            <tr>
+                <td>{{ "%.2f"|format(scores['pos']) }}</td>
+                <td>{{ "%.2f"|format(scores['neu']) }}</td>
+                <td>{{ "%.2f"|format(scores['neg']) }}</td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="chart">
+        <h3>Sentiment Distribution Chart</h3>
+        <img src="data:image/png;base64,{{ chart_base64 }}">
+    </div>
+</body>
+</html>

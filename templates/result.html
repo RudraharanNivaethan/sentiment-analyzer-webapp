@@ -11,7 +11,6 @@
 </head>
 <body>
     {% include 'header.html' %}
-
     <!-- Main Content -->
     <main class="main-content">
         <!-- Hero Section -->
@@ -34,287 +33,33 @@
                             <h2><i class="fas fa-chart-bar"></i> Sentiment Analysis Report</h2>
                             <p class="report-date">Generated on <span id="reportDate"></span></p>
                         </div>
-                        <!---
-                        <div class="report-actions">
-                            <button class="btn btn-primary" onclick="exportReport()">
-                                <i class="fas fa-download"></i> Export Report
-                            </button>
-                            <button class="btn btn-secondary" onclick="printReport()">
-                                <i class="fas fa-print"></i> Print
-                            </button>
-                            <a href="{{ url_for('app_page') }}" class="btn btn-secondary">
-                                <i class="fas fa-plus"></i> New Analysis
-                            </a>
-                        </div>
-                        -->
                     </div>
+                    <div class="report-actions"></div>
                 </div>
 
                 <!-- Summary Cards -->
-                <div class="summary-grid">
-                    <div class="summary-card primary">
-                        <div class="summary-icon">
-                            <i class="fas fa-smile"></i>
-                        </div>
-                        <div class="summary-content">
-                            <h3>Overall Sentiment</h3>
-                            <div class="summary-value" id="overallSentiment">
-                                {{ sentiment }}
-                            </div>
-                            <div class="summary-description">Based on compound score analysis</div>
-                        </div>
-                    </div>
-                    
-                    <div class="summary-card">
-                        <div class="summary-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="summary-content">
-                            <h3>Compound Score</h3>
-                            <div class="summary-value" id="compoundScore">{{ "%.3f"|format(polarity) }}</div>
-                            <div class="summary-description">Range: -1.0 to +1.0</div>
-                        </div>
-                    </div>
-                    
-                    <div class="summary-card">
-                        <div class="summary-icon">
-                            <i class="fas fa-percentage"></i>
-                        </div>
-                        <div class="summary-content">
-                            <h3>Subjectivity</h3>
-                            <div class="summary-value" id="subjectivity">
-                                {{subjectivity_class}} ({{ "%.3f"|format(subjectivity) }})
-                            </div>
-                            <div class="summary-description">0 = Objective, 1 = Subjective</div>
-                        </div>
-                    </div>
-                    
-                    <div class="summary-card">
-                        <div class="summary-icon">
-                            <i class="fas fa-file-text"></i>
-                        </div>
-                        <div class="summary-content">
-                            <h3>Word Count</h3>
-                            <div class="summary-value" id="wordCount">{{ text.split()|length }}</div>
-                            <div class="summary-description">Total words analyzed</div>
-                        </div>
-                    </div>
-                </div>
+                <div class="summary-grid"></div>
 
                 <!-- Detailed Analysis -->
-                <div class="analysis-grid">
-                    <!-- Sentiment Breakdown -->
-                    <div class="analysis-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-chart-pie"></i> Sentiment Breakdown</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="sentiment-breakdown">
-                                <div class="breakdown-item positive">
-                                    <div class="breakdown-label">
-                                        <i class="fas fa-smile"></i> Positive
-                                    </div>
-                                    <div class="breakdown-value">{{ "%.2f"|format(pos * 100) }}%</div>
-                                    <div class="breakdown-bar">
-                                        <div class="breakdown-fill positive" style="width: {{ pos * 100 }}%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="breakdown-item neutral">
-                                    <div class="breakdown-label">
-                                        <i class="fas fa-meh"></i> Neutral
-                                    </div>
-                                    <div class="breakdown-value">{{ "%.2f"|format(neu * 100) }}%</div>
-                                    <div class="breakdown-bar">
-                                        <div class="breakdown-fill neutral" style="width: {{ neu * 100 }}%"></div>
-                                    </div>
-                                </div>
-                                
-                                <div class="breakdown-item negative">
-                                    <div class="breakdown-label">
-                                        <i class="fas fa-frown"></i> Negative
-                                    </div>
-                                    <div class="breakdown-value">{{ "%.2f"|format(neg * 100) }}%</div>
-                                    <div class="breakdown-bar">
-                                        <div class="breakdown-fill negative" style="width: {{ neg * 100 }}%"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                <div class="analysis-grid"></div>
 
-                    <!-- Visual Chart -->
-                    <div class="analysis-card">
-                        <div class="card-header">
-                            <h3><i class="fas fa-chart-bar"></i> Visual Analysis</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="chart-container">
-                                <div class="chart-placeholder">
-                                    <div class="chart-bars">
-                                        <div class="chart-bar positive" style="height: {{ pos * 100 }}%">
-                                            <div class="bar-label">Positive</div>
-                                            <div class="bar-value">{{ "%.2f"|format(pos * 100) }}%</div>
-                                        </div>
-                                        <div class="chart-bar neutral" style="height: {{ neu * 100 }}%">
-                                            <div class="bar-label">Neutral</div>
-                                            <div class="bar-value">{{ "%.2f"|format(neu * 100) }}%</div>
-                                        </div>
-                                        <div class="chart-bar negative" style="height: {{ neg * 100 }}%">
-                                            <div class="bar-label">Negative</div>
-                                            <div class="bar-value">{{ "%.2f"|format(neg * 100) }}%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Visual Chart -->
+                <div class="analysis-card"></div>
 
                 <!-- Original Text -->
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-file-text"></i> Original Text</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="original-text" id="originalText">{{ text }}</div>
-                    </div>
-                </div>
+                <div class="analysis-card"></div>
 
                 <!-- Raw Score Values -->
-                <div class="analysis-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-calculator"></i> Raw Score Values</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="raw-scores-grid">
-                            <div class="raw-score-item">
-                                <div class="raw-score-label">Positive Score</div>
-                                <div class="raw-score-value">{{ "%.3f"|format(pos) }}</div>
-                                <div class="raw-score-range">Range: 0.0 - 1.0</div>
-                            </div>
-                            <div class="raw-score-item">
-                                <div class="raw-score-label">Neutral Score</div>
-                                <div class="raw-score-value">{{ "%.3f"|format(neu) }}</div>
-                                <div class="raw-score-range">Range: 0.0 - 1.0</div>
-                            </div>
-                            <div class="raw-score-item">
-                                <div class="raw-score-label">Negative Score</div>
-                                <div class="raw-score-value">{{ "%.3f"|format(neg) }}</div>
-                                <div class="raw-score-range">Range: 0.0 - 1.0</div>
-                            </div>
-                            <div class="raw-score-item">
-                                <div class="raw-score-label">Compound Score</div>
-                                <div class="raw-score-value">{{ "%.3f"|format(polarity) }}</div>
-                                <div class="raw-score-range">Range: -1.0 - +1.0</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="analysis-card"></div>
 
                 <!-- Detailed Metrics -->
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <h4><i class="fas fa-chart-line"></i> Compound Score Analysis</h4>
-                        </div>
-                        <div class="metric-content">
-                            <!--
-                            <div class="score-explanation">
-                                <p>The compound score of <strong>{{ "%.3f"|format(polarity) }}</strong> indicates
-                                {% if polarity >= 0.05 %}
-                                    a strongly positive sentiment.
-                                {% elif polarity <= -0.05 %}
-                                    a strongly negative sentiment.
-                                {% else %}
-                                    a neutral sentiment.
-                                {% endif %}
-                                This score is calculated by combining multiple sentiment indicators and normalizing the result between -1 and +1.</p>
-                                <div class="score-range">
-                                    <div class="range-item negative">-1.0 (Most Negative)</div>
-                                    <div class="range-item neutral">0.0 (Neutral)</div>
-                                    <div class="range-item positive">+1.0 (Most Positive)</div>
-                                </div>
-                            </div>
-                        -->
-                        </div>
-                    </div>
-                    
-                    <div class="metric-card">
-                        <div class="metric-header">
-                            <h4><i class="fas fa-percentage"></i> Subjectivity Analysis</h4>
-                        </div>
-                        <div class="metric-content">
-                            <div class="subjectivity-explanation">
-                                <p>The subjectivity score of <strong>{{ "%.3f"|format(subjectivity) }}</strong> suggests the text is 
-                                {{ subjectivity_class}}
-                                <div class="subjectivity-range">
-                                    <div class="range-item objective">0.0 (Very Objective)</div>
-                                    <div class="range-item subjective">1.0 (Very Subjective)</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <div class="metrics-grid"></div>
 
                 <!-- Insights -->
-                <div class="insights-card">
-                    <div class="card-header">
-                        <h3><i class="fas fa-lightbulb"></i> Key Insights</h3>
-                    </div>
-                    <div class="card-body">
-                        <div class="insights-list">
-                            {% if pos > neu and pos > neg %}
-                            <div class="insight-item">
-                                <div class="insight-icon positive"><i class="fas fa-thumbs-up"></i></div>
-                                <div class="insight-content">
-                                    <h4>Strongly Positive Sentiment</h4>
-                                    <p>The text expresses overwhelmingly positive emotions with {{ "%.1f"|format(pos * 100) }}% positive content.</p>
-                                </div>
-                            </div>
-                            {% elif neg > neu and neg > pos %}
-                            <div class="insight-item">
-                                <div class="insight-icon negative"><i class="fas fa-thumbs-down"></i></div>
-                                <div class="insight-content">
-                                    <h4>Strongly Negative Sentiment</h4>
-                                    <p>The text expresses predominantly negative emotions with {{ "%.1f"|format(neg * 100) }}% negative content.</p>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="insight-item">
-                                <div class="insight-icon neutral"><i class="fas fa-balance-scale"></i></div>
-                                <div class="insight-content">
-                                    <h4>Mixed / Neutral Sentiment</h4>
-                                    <p>The text contains a balanced mix with {{ "%.1f"|format(neu * 100) }}% neutral content.</p>
-                                </div>
-                            </div>
-                            {% endif %}
-
-                            {% if subjectivity > 0.5 %}
-                            <div class="insight-item">
-                                <div class="insight-icon info"><i class="fas fa-info-circle"></i></div>
-                                <div class="insight-content">
-                                    <h4>Moderately Subjective</h4>
-                                    <p>The text contains personal opinions or emotions ({{ "%.1f"|format(subjectivity * 100) }}% subjective).</p>
-                                </div>
-                            </div>
-                            {% else %}
-                            <div class="insight-item">
-                                <div class="insight-icon info"><i class="fas fa-info-circle"></i></div>
-                                <div class="insight-content">
-                                    <h4>Mostly Objective</h4>
-                                    <p>The text is mostly factual with minimal subjective opinions ({{ "%.1f"|format(subjectivity * 100) }}% subjective).</p>
-                                </div>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
+                <div class="insights-card"></div>
             </div>
         </section>
     </main>
-
     {% include 'footer.html' %}
-    <script src="{{ url_for('static', filename='js/result.js') }}"></script>
 </body>
 </html>

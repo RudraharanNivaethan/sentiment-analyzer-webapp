@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template
-from services.sentiment_service import get_sentiment, get_subjectivity
+from flask import Flask, render_template, request, jsonify, send_file
+from services.sentiment_service import get_sentiment, get_subjectivity, get_detailed_scores
 from services.chart_service import generate_sentiment_chart
+from services.report_service import generate_pdf
 
 # Initialize Flask App
 app = Flask(__name__)
@@ -29,40 +30,47 @@ def app_page():
 # Result Route
 @app.route('/analyze_sentiment', methods=['POST'])
 def analyze_sentiment():
-    text = request.form.get('text', '').strip()
+    data = request.get_json()
+    text = data.get("text", "")
 
-    # Handle empty input
-    if not text:
-        return render_template('app.html', error="Please enter some text.")
+    sentiment = get_sentiment(text)
+    subjectivity, subjectivity_class = get_subjectivity(text)
+    scores = get_detailed_scores(text)
+    compound = scores["compound"]
+    pos = scores["pos"]
+    neg = scores["neg"]
+    neu = scores["neu"]
 
-    try:
-        # Get sentiment and VADER scores
-        sentiment, scores = get_sentiment(text)
-        polarity = float(scores['compound']) # Compound score for overall sentiment
-        pos = float(scores['pos']) # Fraction of text that is positive (0 to 1)
-        neu = float(scores['neu']) # Fraction of text that is neutral (0 to 1)
-        neg = float(scores['neg']) # Fraction of text that is negative (0 to 1)
+    return jsonify({
+        "sentiment": sentiment,
+        "subjectivity": subjectivity,
+        "subjectivity_class": subjectivity_class,
+        "compound": compound,
+        "pos": pos,
+        "neg": neg,
+        "neu": neu
+    })
 
-        # Get Subjectivity and classification
-        subjectivity, subjectivity_class = get_subjectivity(text)
+@app.route("/export", methods=["POST"])
+def export():
+    data = request.get_json()
+    text = data.get("text", "")
+    sentiment = data.get("sentiment", "")
+    subjectivity = data.get("subjectivity", "")
 
-        # Generate Sentiment Chart
-        chart_url = generate_sentiment_chart(pos,neu,neg)
+    # Get detailed scores & chart
+    scores = get_detailed_scores(text)
+    chart_base64 = generate_sentiment_chart(scores["pos"], scores["neu"], scores["neg"])
 
-        return render_template('result.html',
-                               text=text,
-                               sentiment=sentiment,
-                               polarity=polarity,
-                               pos=pos,
-                               neu=neu,
-                               neg=neg,
-                               subjectivity=subjectivity,
-                               subjectivity_class=subjectivity_class,
-                               chart_url=chart_url)     
-    except Exception as e:
-        # Catch any unexpected error and display friendly message
-        return render_template('app.html', error=f"An error occurred: {str(e)}")
-# ----------- End of Routes ----------- 
+    # Generate PDF using modular service
+    pdf_buffer = generate_pdf(text, sentiment, subjectivity, scores, chart_base64)
+
+    return send_file(
+        pdf_buffer,
+        as_attachment=True,
+        download_name="sentiment_report.pdf",
+        mimetype="application/pdf"
+    )
 
 # Run the app only if this file is executed directly
 if __name__ == '__main__':

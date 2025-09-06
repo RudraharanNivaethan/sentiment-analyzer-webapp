@@ -16,7 +16,7 @@ def get_sentiment(text):
         sentiment = "Negative 😢"
     else:
         sentiment = "Neutral 😐"
-    return sentiment, scores
+    return sentiment
 
 # ----------- Helper Function: Determine Subjectivity----------- 
 def get_subjectivity(text):
@@ -25,10 +25,14 @@ def get_subjectivity(text):
     subjectivity = blob.sentiment.subjectivity  # 0 (objective) to 1 (subjective)
 
     # Subjectivity Classification
-    if subjectivity < 0.5:
+    if subjectivity < 0.4:
         subjectivity_class = "Objective"
-    elif subjectivity < 0.75:
+    elif subjectivity < 0.7:
         subjectivity_class = "Moderately Subjective"
     else:
         subjectivity_class = "Highly Subjective"
     return subjectivity, subjectivity_class
+
+def get_detailed_scores(text: str) -> dict:
+    """Returns pos/neu/neg scores for chart and table."""
+    return sa.polarity_scores(text)
