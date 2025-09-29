@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify, send_file
-from services.sentiment_service import get_sentiment, get_subjectivity, get_detailed_scores
+from services.sentiment_service import get_sentiment, get_subjectivity, get_detailed_scores, analyze_text
 from services.chart_service import generate_sentiment_chart
 from services.report_service import generate_pdf
 
@@ -31,39 +31,23 @@ def app_page():
 @app.route('/analyze_sentiment', methods=['POST'])
 def analyze_sentiment():
     data = request.get_json()
-    text = data.get("text", "")
-
-    sentiment = get_sentiment(text)
-    subjectivity, subjectivity_class = get_subjectivity(text)
-    scores = get_detailed_scores(text)
-    compound = scores["compound"]
-    pos = scores["pos"]
-    neg = scores["neg"]
-    neu = scores["neu"]
-
-    return jsonify({
-        "sentiment": sentiment,
-        "subjectivity": subjectivity,
-        "subjectivity_class": subjectivity_class,
-        "compound": compound,
-        "pos": pos,
-        "neg": neg,
-        "neu": neu
-    })
+    result = analyze_text(data.get("text", ""))
+    return jsonify(result)
 
 @app.route("/export", methods=["POST"])
 def export():
     data = request.get_json()
     text = data.get("text", "")
-    sentiment = data.get("sentiment", "")
-    subjectivity = data.get("subjectivity", "")
+    result = analyze_text(text)  # reuse same function
 
-    # Get detailed scores & chart
-    scores = get_detailed_scores(text)
-    chart_base64 = generate_sentiment_chart(scores["pos"], scores["neu"], scores["neg"])
+    chart_base64 = generate_sentiment_chart(
+        result["pos"], result["neu"], result["neg"]
+    )
 
-    # Generate PDF using modular service
-    pdf_buffer = generate_pdf(text, sentiment, subjectivity, scores, chart_base64)
+    pdf_buffer = generate_pdf(
+        result["text"], result["sentiment"], result["subjectivity"],
+        result["scores"], chart_base64
+    )
 
     return send_file(
         pdf_buffer,

@@ -36,3 +36,20 @@ def get_subjectivity(text):
 def get_detailed_scores(text: str) -> dict:
     """Returns pos/neu/neg scores for chart and table."""
     return sa.polarity_scores(text)
+
+def analyze_text(text):
+    sentiment = get_sentiment(text)
+    subjectivity, subjectivity_class = get_subjectivity(text)
+    scores = get_detailed_scores(text)
+
+    return {
+        "text": text,
+        "sentiment": sentiment,
+        "subjectivity": subjectivity,
+        "subjectivity_class": subjectivity_class,
+        "compound": scores["compound"],
+        "pos": scores["pos"],
+        "neg": scores["neg"],
+        "neu": scores["neu"],
+        "scores": scores
+    }
