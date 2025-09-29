@@ -40,9 +40,9 @@ document.getElementById("analyzeForm").addEventListener("submit", async function
         <p><strong>Neutral:</strong> ${data.neu}</p>
         <p><strong>Negative:</strong> ${data.neg}</p><br>
         <!-- Chart container -->
-        <div id="chartContainer" style="width: 50%; margin-top: 20px; display:none;text-align:center;">
+        <center><div id="chartContainer" style="width: 50%; height:400px; margin-top: 20px; display:none;text-align:center;">
           <canvas id="sentimentChart"></canvas>
-        </div>
+        </div></center>
     `;
 
     // Draw Chart
@@ -52,31 +52,78 @@ document.getElementById("analyzeForm").addEventListener("submit", async function
     document.getElementById("exportBtn").style.display = "inline-block";
 });
 
-// Function to draw Chart.js bar chart
+// Function to draw a modern, well-sized Chart.js chart
 function drawChart(pos, neu, neg) {
-    let ctx = document.getElementById("sentimentChart").getContext("2d");
-    document.getElementById("chartContainer").style.display = "block";
+    // Show the chart container
+    const container = document.getElementById("chartContainer");
+    container.style.display = "block";
 
+    // Get the canvas context
+    const ctx = document.getElementById("sentimentChart").getContext("2d");
+
+    // Destroy previous chart if exists
     if (sentimentChart) {
-        sentimentChart.destroy(); // remove old chart
+        sentimentChart.destroy();
     }
 
+    // Create a modern chart
     sentimentChart = new Chart(ctx, {
-        type: 'bar',
+        type: 'bar', // can change to 'doughnut', 'pie', etc.
         data: {
             labels: ['Positive', 'Neutral', 'Negative'],
             datasets: [{
                 label: 'Sentiment Scores',
                 data: [pos, neu, neg],
-                backgroundColor: ['green', 'blue', 'red']
+                backgroundColor: ['#4CAF50', '#2196F3', '#F44336'], // modern colors
+                borderRadius: 8,  // rounded bars
+                borderSkipped: false
             }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false, 
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom',
+                    labels: {
+                        font: {
+                            size: 14,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    callbacks: {
+                        label: function(context) {
+                            let value = context.raw;
+                            return `${context.label}: ${(value * 100).toFixed(1)}%`;
+                        }
+                    }
+                }
+            },
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: 1
+                    max: 1,
+                    ticks: {
+                        stepSize: 0.1,
+                        callback: function(value) {
+                            return (value * 100).toFixed(0) + '%';
+                        }
+                    },
+                    grid: {
+                        drawBorder: false,
+                        color: '#e0e0e0'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false,
+                    },
+                    barPercentage: 0.5,      // width of the bar relative to category
+                    categoryPercentage: 0.5  // width of the category relative to available space
                 }
             }
         }
