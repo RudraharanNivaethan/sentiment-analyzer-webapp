@@ -1,3 +1,6 @@
+import os
+os.environ['DYLD_LIBRARY_PATH'] = '/opt/homebrew/lib:' + os.environ.get('DYLD_LIBRARY_PATH', '')
+
 from flask import Flask, render_template, request, jsonify, send_file
 from services.sentiment_service import get_sentiment, get_subjectivity, get_detailed_scores, analyze_text
 from services.chart_service import generate_sentiment_chart
