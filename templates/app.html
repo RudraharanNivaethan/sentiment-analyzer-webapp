@@ -70,8 +70,10 @@
             display: flex;
             justify-content: space-around;
             align-items: flex-end;
-            height: 140px;
+            height: 200px; /* Increased to fit bars */
             margin-top: 1rem;
+            padding-bottom: 1rem;
+            box-sizing: border-box;
         }
 
         .sentiment-bar-group {
@@ -84,6 +86,7 @@
             width: 30px;
             border-radius: 6px 6px 0 0;
             transition: height 0.5s ease;
+            max-height: 100%; /* Prevent overflow */
         }
 
         .positive { background: #4caf50; }
@@ -266,17 +269,17 @@
         }
 
         function updateSentimentBars(pos, neu, neg) {
-            const maxHeight = 120;
-            const maxValue = Math.max(pos, neu, neg, 0.01);
+            const chartHeight = 120; // maximum visual height of bars
+            const total = pos + neu + neg || 1; // avoid division by zero
 
-            document.getElementById('positiveBar').style.height = (pos/maxValue)*maxHeight + 'px';
-            document.getElementById('positiveValue').textContent = (pos*100).toFixed(1) + '%';
+            document.getElementById('positiveBar').style.height = (pos / total * chartHeight) + 'px';
+            document.getElementById('positiveValue').textContent = (pos * 100).toFixed(1) + '%';
 
-            document.getElementById('neutralBar').style.height = (neu/maxValue)*maxHeight + 'px';
-            document.getElementById('neutralValue').textContent = (neu*100).toFixed(1) + '%';
+            document.getElementById('neutralBar').style.height = (neu / total * chartHeight) + 'px';
+            document.getElementById('neutralValue').textContent = (neu * 100).toFixed(1) + '%';
 
-            document.getElementById('negativeBar').style.height = (neg/maxValue)*maxHeight + 'px';
-            document.getElementById('negativeValue').textContent = (neg*100).toFixed(1) + '%';
+            document.getElementById('negativeBar').style.height = (neg / total * chartHeight) + 'px';
+            document.getElementById('negativeValue').textContent = (neg * 100).toFixed(1) + '%';
         }
 
         document.getElementById('exportBtn').addEventListener('click', async () => {
