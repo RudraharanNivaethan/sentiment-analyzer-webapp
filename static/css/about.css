@@ -1,73 +1,127 @@
+/* Modern About Page */
 .about-visual {
-    font-size: 6rem;
+    font-size: 5rem;
     background: var(--primary-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    margin: var(--spacing-xl) 0;
+    margin: var(--spacing-2xl) 0;
+    text-align: center;
+    animation: float 6s ease-in-out infinite;
 }
 
 .feature-header {
     display: flex;
     align-items: center;
     gap: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
 }
 
 .feature-header i {
     font-size: 2rem;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-500);
+    background: var(--primary-100);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-lg);
 }
 
 .tech-card {
     text-align: center;
-    padding: var(--spacing-xl);
+    padding: var(--spacing-2xl);
     background: var(--bg-card);
     border-radius: var(--radius-2xl);
     border: 1px solid var(--border-color);
     transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-50) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.tech-card:hover::before {
+    opacity: 1;
 }
 
 .tech-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
 }
 
 .tech-icon {
-    font-size: 2.5rem;
+    font-size: 3rem;
     margin-bottom: var(--spacing-lg);
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    transition: all var(--transition-normal);
+}
+
+.tech-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Tech stack brand colors */
+.fa-python {
+    color: #3776AB !important;
+}
+
+.fa-language {
+    color: #4CAF50 !important;
+}
+
+.fa-chart-bar {
+    color: #11557C !important;
 }
 
 .use-case {
     display: flex;
     align-items: flex-start;
-    gap: var(--spacing-lg);
-    padding: var(--spacing-xl);
+    gap: var(--spacing-xl);
+    padding: var(--spacing-2xl);
     background: var(--bg-card);
     border-radius: var(--radius-2xl);
     border: 1px solid var(--border-color);
     transition: all var(--transition-normal);
+    position: relative;
+}
+
+.use-case::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-lg) 0 0 var(--radius-lg);
 }
 
 .use-case:hover {
-    transform: translateY(-5px);
+    transform: translateY(-4px);
     box-shadow: var(--shadow-lg);
+    border-color: var(--primary-200);
 }
 
 .use-case-icon {
     font-size: 2.5rem;
-    background: var(--primary-gradient);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--primary-500);
     flex-shrink: 0;
+    background: var(--primary-100);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-xl);
+    transition: all var(--transition-normal);
+}
+
+.use-case-icon:hover {
+    transform: scale(1.05);
+    background: var(--primary-200);
 }
 
 .nav-link.active {

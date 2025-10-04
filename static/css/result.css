@@ -47,19 +47,37 @@
 
 .summary-card {
     background: var(--bg-card);
-    border-radius: var(--radius-2xl);
-    padding: var(--spacing-xl);
+    border-radius: var(--radius-xl);
+    padding: var(--spacing-2xl);
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     display: flex;
     align-items: center;
-    gap: var(--spacing-lg);
+    gap: var(--spacing-xl);
     transition: all var(--transition-normal);
+    position: relative;
+    overflow: hidden;
+}
+
+.summary-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--primary-50) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+.summary-card:hover::before {
+    opacity: 1;
 }
 
 .summary-card:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
 }
 
 .summary-card.primary {
@@ -119,10 +137,16 @@
 
 .analysis-card {
     background: var(--bg-card);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     overflow: hidden;
+    transition: all var(--transition-normal);
+}
+
+.analysis-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .card-header {
@@ -236,6 +260,28 @@
     padding: var(--spacing-sm);
     position: relative;
     min-height: 40px;
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+
+.chart-bar:hover {
+    transform: scale(1.05);
+    filter: brightness(1.1);
+}
+
+.chart-bar.positive {
+    background: var(--success-gradient);
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.chart-bar.neutral {
+    background: var(--warning-gradient);
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
+}
+
+.chart-bar.negative {
+    background: var(--danger-gradient);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
 }
 
 .chart-bar.positive {
@@ -282,10 +328,16 @@
 
 .metric-card {
     background: var(--bg-card);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-lg);
     padding: var(--spacing-xl);
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
+    transition: all var(--transition-normal);
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .metric-header h4 {
@@ -341,10 +393,16 @@
 
 .insights-card {
     background: var(--bg-card);
-    border-radius: var(--radius-2xl);
+    border-radius: var(--radius-lg);
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     overflow: hidden;
+    transition: all var(--transition-normal);
+}
+
+.insights-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
 }
 
 .insights-list {

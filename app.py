@@ -61,4 +61,5 @@ def export():
 
 # Run the app only if this file is executed directly
 if __name__ == '__main__':
-    app.run(debug=False) # Set debug to False for production
+    port = int(os.environ.get('PORT', 5000))
+    app.run(port=port, debug=False) # Set debug to False for production
