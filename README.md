@@ -14,56 +14,81 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
 
 ---
 
-## Features
+## Key Features
+- **Compound Sentiment Score (VADER-based)**  
+- **Overall Sentiment Classification (Positive/Neutral/Negative)**  
+- **Subjectivity Measurement (TextBlob, scale 0–1)**  
+- **Subjectivity Categorization (Objective, Moderately Subjective, Highly Subjective)**  
+- **Detailed Sentiment Breakdown (positive, negative, neutral percentages)**  
+- **Interactive Visual Charts on Web Page (rendered with JavaScript)**  
+- **PDF Export with Matplotlib Charts** (charts generated on server and embedded via WeasyPrint)  
+- **Real-Time Analysis via Flask web interface**
+
+---
+
+## Pages
 
 - **Home Page (`home.html`)**
   - Introduction to sentiment metrics:
     - Compound Score, Overall Sentiment, Subjectivity, Sentiment Breakdown
-  - CTA button **Start Sentiment Analysis** → leads to App page (`app.html`)
-  - “Learn More About This App” button → leads to **About Page** (`about.html`)
+  - CTA button **Start Analyzing** → leads to App page (`app.html`)
+  - “Learn More” button → leads to **About Page** (`about.html`)
 
 - **App Page / Text Input Form (`app.html`)**
   - Users can input text for sentiment analysis
-  - Submit button triggers analysis and redirects to **Result Page**
-
-- **Sentiment Result Page (`result.html`)**
-  - Displays:
-    - Input text
+  - Submit button triggers **dynamic analysis on the same page** (no separate result page)
+  - Shows:
     - Overall Sentiment
     - Compound Score
     - Positive, Neutral, Negative percentages
     - Subjectivity score
     - Factual / Opinionated classification
-  - Shows **dynamic bar chart** of sentiment distribution
-  - Button **Analyze Another Text** → returns to App page
+  - Includes **dynamic bar chart** of sentiment distribution
+  - Button **Clear** → clears input and resets results
 
 - **About Page (`about.html`)**
   - Explains the app’s purpose, technologies used, and features
   - Provides background on NLP and sentiment analysis
 
 - **Contact Page (`contact.html`)**
-  - Shows team members, their contributions, and GitHub links
+  - Shows team members, their contributions, and contact links
+---
 
-- **Reusable Components**
-  - **Header (`header.html`)** and **Footer (`footer.html`)** included on all pages
-  - Header contains navigation and optional logo
-  - Footer contains GitHub links and contact/social info
-
-- **Backend / AI Features**
-  - Flask routes handle form submission and template rendering
-  - **VADER (NLTK)** computes sentiment scores
-  - **TextBlob** calculates subjectivity
-  - **Matplotlib** generates visual charts dynamically
+## Usage
+1. Enter any sentence or paragraph into the input form.  
+2. Click **Analyze**.  
+3. The app displays:  
+   - Overall sentiment (Positive/Negative/Neutral)  
+   - Compound score  
+   - Positive, Neutral, Negative percentages  
+   - Subjectivity score and classification  
+   - Sentiment distribution chart  
+4. Optionally, export results as a styled PDF report.
 
 ---
 
-## Technologies Used
-- **Python 3.x**
-- **Flask** – Web framework
-- **NLTK (VADER)** – Sentiment analysis
-- **TextBlob** – Subjectivity analysis
-- **Matplotlib** – Data visualization
-- **HTML & CSS** – Frontend pages 
+## Scope and Considerations
+The Sentiment Analysis Web App is designed as a lightweight and accessible tool for analyzing English text. It is most effective in:
+
+- **Social Media Monitoring** – Tracking opinions and trends in posts and comments  
+- **Customer Feedback Analysis** – Understanding reviews in e-commerce and services  
+- **Educational Demonstrations** – Teaching NLP basics in classrooms or workshops  
+- **Content Analysis** – Exploring blogs, surveys, or articles for sentiment
+
+**Considerations:**
+- Optimized for short, informal text (tweets, comments, reviews)  
+- Based on lexicons, so may not always detect sarcasm, irony, or jargon  
+- English-only support in current version  
+- Thresholds for subjectivity are practical but may vary depending on application  
+
+---
+
+## Future Improvements
+- Deep Learning Models (e.g., BERT, RoBERTa) for better context handling  
+- Multilingual Support for analyzing text in multiple languages  
+- Domain-Specific Lexicons (finance, healthcare, legal)  
+- Interactive Dashboards for advanced visualization  
+- Database Integration for storing past analyses and generating large-scale reports  
 
 ---
 
@@ -71,29 +96,69 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
 ```
 sentiment-analyzer-webapp/
 │
-├── templates/                   ← All HTML pages
-│   ├── home.html
-│   ├── app.html
-│   ├── result.html
-│   ├── about.html
-│   └── contact.html
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+├── virtualenv/
 │
-├── static/                      ← Static files (CSS, JS, images)
-│   ├── css/
-│   │   └── style.css
-│   ├── js/
-│   │   └── script.js
-│   └── images/
-│       └── logo.png
+├── templates/
+│   ├── home.html             # Main landing page of the web app
+│   ├── app.html              # Page where users input text and analyze sentiment
+│   ├── about.html            # About page describing the app
+│   ├── contact.html          # Contact page for user inquiries
+│   ├── header.html           # Common header included in all pages
+│   ├── footer.html           # Common footer included in all pages
+│   └── report_template.html  # HTML template used for generating PDF reports
 │
-├── services/                    ← Modular Python helper functions
-│   ├── sentiment_service.py     ← get_sentiment, get_subjectivity
-│   └── chart_service.py         ← generate_sentiment_chart
+├── static/
+│   ├── css/                  # Stylesheets
+│   └── images/               # Images used in the app or reports
 │
-├── header.html                  ← Reusable header
-├── footer.html                  ← Reusable footer
-├── app.py                       ← Flask backend logic and App 
-├── README.md                    ← Project overview & instructions
-├── requirements.txt             ← Python dependencies
-└── .gitignore                   ← Ignore virtual env, __pycache__, etc.
+├── services/
+│   ├── sentiment_service.py  # Handles NLP operations:
+│   │                            - Determine sentiment (VADER)
+│   │                            - Determine subjectivity and subjectivity class 
+|   |                              (TextBlob)
+│   │                            - Return detailed scores (pos, neu, neg, compound)
+│   │
+│   ├── chart_service.py      # Generates and embeds charts for PDF reports
+│   │
+│   └── report_service.py     # Generates PDF reports using WeasyPrint
 ```
+
+## Best Practices and Reusable Components
+
+The Sentiment Analysis Web App follows modern software engineering principles to ensure **modularity, maintainability, and scalability**. Key best practices implemented in the project include:
+
+### 1. Modular and Maintainable Code
+- Core functionality is separated into reusable Python services:
+  - **`sentiment_service.py`** – Handles NLP logic for sentiment and subjectivity analysis.
+  - **`chart_service.py`** – Generates Matplotlib charts for PDF embedding.
+  - **`report_service.py`** – Creates styled PDF reports using HTML templates and WeasyPrint.
+- Keeps code organized, scalable, and easy to maintain or extend.
+
+### 2. Separation of Frontend and Backend
+- **Frontend (HTML/CSS/JS)** is managed via Flask templates and `static/` resources.
+- **Backend (Python/Flask)** handles all NLP computations, chart generation, and PDF creation.
+- Ensures UI/UX changes do not affect core logic and vice versa.
+
+### 3. Reusable Services
+- Service functions are designed to be **reusable across pages or projects**.
+- Example: `sentiment_service.get_sentiment()` can be used in:
+  - Web pages
+  - CLI tools
+  - API endpoints
+
+### 4. Virtual Environment for Dependency Isolation
+- Project uses a **virtualenv** to isolate Python packages.
+- Prevents conflicts with global packages and ensures portability.
+### 4. Virtual Environment for Dependency Isolation
+- Project uses a **virtualenv** to isolate Python packages.
+- Prevents conflicts with global packages and ensures portability.
+
+### 5. Requirements Management
+- Dependencies listed in `requirements.txt`.
+- Allows other developers to quickly replicate the exact environment with:
+  ```bash
+  pip install -r requirements.txt
