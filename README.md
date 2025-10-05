@@ -66,6 +66,30 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
 4. Optionally, export results as a styled PDF report.
 
 ---
+## Tech Stack
+
+The Sentiment Analysis Web App leverages a combination of backend, frontend, and AI/NLP tools to provide real-time sentiment insights and visual reports:
+
+### Backend
+- Python – Core programming language for logic and server-side functionality
+- Flask – Lightweight web framework for handling routes, templates, and API requests
+
+#### NLP / Sentiment Analysis
+- NLTK (VADER) – Rule-based sentiment analysis tuned for social media and informal text
+- TextBlob – Measures subjectivity and provides polarity scores
+
+### Frontend
+- HTML & CSS – Structuring and styling web pages
+- JavaScript – Dynamic rendering of sentiment results and charts
+
+#### Visualization & Reporting
+- Matplotlib – Generates bar charts of sentiment distribution
+- WeasyPrint – Converts HTML + CSS into styled PDF reports with embedded charts
+
+#### Utilities
+- Requests – Handles HTTP requests if needed for external APIs
+- Virtualenv – Isolates project dependencies and prevents conflicts with global Python packages
+---
 
 ## Scope and Considerations
 The Sentiment Analysis Web App is designed as a lightweight and accessible tool for analyzing English text. It is most effective in:
@@ -119,7 +143,6 @@ sentiment-analyzer-webapp/
 ```
 ---
 ## Developer Guide / How to Run
-________________________________________
 
 ### 1️⃣ Create a Virtual Environment
 Navigate to your project’s root folder:
@@ -214,15 +237,13 @@ The Sentiment Analysis Web App follows modern software engineering principles to
 ### 4. Virtual Environment for Dependency Isolation
 - Project uses a **virtualenv** to isolate Python packages.
 - Prevents conflicts with global packages and ensures portability.
-### 4. Virtual Environment for Dependency Isolation
-- Project uses a **virtualenv** to isolate Python packages.
-- Prevents conflicts with global packages and ensures portability.
 
 ### 5. Requirements Management
 - Dependencies listed in `requirements.txt`.
 - Allows other developers to quickly replicate the exact environment with:
   ```bash
   pip install -r requirements.txt
+  ```
 
 ### 6. Version Control Hygiene
 - `.gitignore` excludes unnecessary files:
@@ -262,3 +283,4 @@ The Sentiment Analysis Web App follows modern software engineering principles to
 - Domain-Specific Lexicons (finance, healthcare, legal)  
 - Interactive Dashboards for advanced visualization  
 - Database Integration for storing past analyses and generating large-scale reports  
+---
