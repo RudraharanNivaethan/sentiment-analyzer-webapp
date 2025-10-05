@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentiment Analyzer - Analysis</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!--CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* Layout for side by side input and result */
+        .analysis-container {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .input-panel, .results-panel {
+            flex: 1 1 45%;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+        }
+
+        /* Result sub-cards */
+        .result-item {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .result-header {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .score-bar {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .score-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .score-positive { background: #4caf50; }
+        .score-negative { background: #f44336; }
+        .score-neutral { background: #ff9800; }
+
+        /* Sentiment bar chart */
+        .sentiment-chart {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 200px; /* Increased to fit bars */
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+            box-sizing: border-box;
+        }
+
+        .sentiment-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .sentiment-bar {
+            width: 30px;
+            border-radius: 6px 6px 0 0;
+            transition: height 0.5s ease;
+            max-height: 100%; /* Prevent overflow */
+        }
+
+        .positive { background: #4caf50; }
+        .neutral { background: #ff9800; }
+        .negative { background: #f44336; }
+
+        .sentiment-value {
+            margin-top: 5px;
+            font-weight: 500;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+
+    <main class="main-content">
+        <div class="container">
+            <div class="section section-sm text-center">
+                <h1><i class="fas fa-chart-line"></i> Sentiment Analysis Tool</h1>
+                <p class="text-muted">Analyze the emotional tone and sentiment of your text using advanced AI</p>
+            </div>
+
+            <div class="analysis-container">
+                <!-- Input Panel -->
+                <div class="input-panel">
+                    <h2><i class="fas fa-edit"></i> Input Text</h2>
+                    <span id="textStats">0 words • 0 characters</span>
+                    <form id="analyzeForm">
+                        <textarea id="text" name="text" rows="10" placeholder="Enter text..." required class="form-input form-textarea"></textarea>
+                        <div style="margin-top:1rem;">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i> Analyze Sentiment</button>
+                            <button type="button" class="btn btn-secondary" id="clearBtn"><i class="fas fa-eraser"></i> Clear</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Results Panel -->
+                <div class="results-panel">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <h2><i class="fas fa-poll"></i> Analysis Results</h2>
+                        <button id="exportBtn" class="btn btn-success hidden"><i class="fas fa-download"></i> Export PDF</button>
+                    </div>
+
+                    <div id="noResults" class="text-center" style="margin-top:2rem;">
+                        <i class="fas fa-chart-pie fa-3x"></i>
+                        <h3>No Analysis Yet</h3>
+                        <p>Enter text and click "Analyze Sentiment" to see results</p>
+                    </div>
+
+                    <div id="result" style="display:none; margin-top:1rem;">
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span><i class="fas fa-smile"></i> Overall Sentiment</span>
+                                <span id="overallSentiment">-</span>
+                            </div>
+                        </div>
+
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span><i class="fas fa-align-left"></i> Nature of Text</span>
+                                <span id="textNature">-</span>
+                            </div>
+                        </div>
+
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span><i class="fas fa-tachometer-alt"></i> Compound Score</span>
+                                <span id="compoundScore">-</span>
+                            </div>
+                            <div class="score-bar"><div id="compoundBar" class="score-fill"></div></div>
+                        </div>
+
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span><i class="fas fa-balance-scale"></i> Subjectivity</span>
+                                <span id="subjectivityScore">-</span>
+                            </div>
+                            <div class="score-bar"><div id="subjectivityBar" class="score-fill score-neutral"></div></div>
+                        </div>
+
+                        <div class="result-item">
+                            <div class="result-header">
+                                <span><i class="fas fa-chart-bar"></i> Sentiment Distribution</span>
+                            </div>
+                            <div class="sentiment-chart">
+                                <div class="sentiment-bar-group">
+                                    <div id="positiveBar" class="sentiment-bar positive" style="height:0;"></div>
+                                    <div id="positiveValue" class="sentiment-value">0%</div>
+                                    <div>Positive</div>
+                                </div>
+                                <div class="sentiment-bar-group">
+                                    <div id="neutralBar" class="sentiment-bar neutral" style="height:0;"></div>
+                                    <div id="neutralValue" class="sentiment-value">0%</div>
+                                    <div>Neutral</div>
+                                </div>
+                                <div class="sentiment-bar-group">
+                                    <div id="negativeBar" class="sentiment-bar negative" style="height:0;"></div>
+                                    <div id="negativeValue" class="sentiment-value">0%</div>
+                                    <div>Negative</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {% include 'footer.html' %}
+
+    <script>
+        let lastResult = {};
+
+        const textArea = document.getElementById('text');
+        const textStats = document.getElementById('textStats');
+        const resultDiv = document.getElementById('result');
+        const noResultsDiv = document.getElementById('noResults');
+
+        textArea.addEventListener('input', () => {
+            const text = textArea.value.trim();
+            const words = text ? text.split(/\s+/).length : 0;
+            textStats.textContent = `${words} words • ${textArea.value.length} characters`;
+        });
+
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            textArea.value = '';
+            textStats.textContent = '0 words • 0 characters';
+            resultDiv.style.display = 'none';
+            noResultsDiv.style.display = 'block';
+            document.getElementById('exportBtn').classList.add('hidden');
+        });
+
+        document.getElementById('analyzeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Analyzing...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/analyze_sentiment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: textArea.value })
+                });
+                const data = await res.json();
+                lastResult = data;
+                displayResults(data);
+                document.getElementById('exportBtn').classList.remove('hidden');
+            } catch(err) {
+                console.error(err);
+                alert('Error analyzing text.');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-search"></i> Analyze Sentiment';
+                btn.disabled = false;
+            }
+        });
+
+        function displayResults(data) {
+            noResultsDiv.style.display = 'none';
+            resultDiv.style.display = 'block';
+
+            document.getElementById('overallSentiment').textContent = data.sentiment;
+            document.getElementById('overallSentiment').className = 'result-value sentiment-' + data.sentiment.toLowerCase();
+            document.getElementById('textNature').textContent = data.subjectivity_class;
+
+            const compound = data.compound;
+            document.getElementById('compoundScore').textContent = compound.toFixed(3);
+            const compoundBar = document.getElementById('compoundBar');
+            const compoundPercent = ((compound + 1) / 2) * 100;
+            compoundBar.style.width = compoundPercent + '%';
+            compoundBar.className = 'score-fill ' + (compound > 0.05 ? 'score-positive' : compound < -0.05 ? 'score-negative' : 'score-neutral');
+
+            const subj = data.subjectivity;
+            document.getElementById('subjectivityScore').textContent = subj.toFixed(3);
+            document.getElementById('subjectivityBar').style.width = (subj * 100) + '%';
+
+            updateSentimentBars(data.pos, data.neu, data.neg);
+        }
+
+        function updateSentimentBars(pos, neu, neg) {
+            const chartHeight = 120; // maximum visual height of bars
+            const total = pos + neu + neg || 1; // avoid division by zero
+
+            document.getElementById('positiveBar').style.height = (pos / total * chartHeight) + 'px';
+            document.getElementById('positiveValue').textContent = (pos * 100).toFixed(1) + '%';
+
+            document.getElementById('neutralBar').style.height = (neu / total * chartHeight) + 'px';
+            document.getElementById('neutralValue').textContent = (neu * 100).toFixed(1) + '%';
+
+            document.getElementById('negativeBar').style.height = (neg / total * chartHeight) + 'px';
+            document.getElementById('negativeValue').textContent = (neg * 100).toFixed(1) + '%';
+        }
+
+        document.getElementById('exportBtn').addEventListener('click', async () => {
+            const btn = document.getElementById('exportBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+            btn.disabled = true;
+
+            try {
+                const res = await fetch('/export', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(lastResult)
+                });
+                const blob = await res.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'sentiment_report.pdf';
+                a.click();
+                window.URL.revokeObjectURL(url);
+            } catch(err) {
+                console.error(err);
+                alert('Error exporting PDF');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-download"></i> Export PDF';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

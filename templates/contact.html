@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Team - Sentiment AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/contact.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    {% include 'header.html' %}
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Meet Our Team</h1>
+                    <p>Passionate developers and AI researchers dedicated to advancing sentiment analysis technology</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="section">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Our Core Team</h2>
+                    <p class="text-secondary">Three talented individuals working together to create the best sentiment analysis platform</p>
+                </div>
+            </div>
+
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="{{ url_for('static', filename='images/r.png') }}" alt="Alex Chen" class="profile-photo" />
+                    </div>
+                    <div class="member-info">
+                        <h3>Rudraharan Nivaethan</h3>
+                        <p class="member-role">AI & Backend Developer</p>
+                        <p class="member-bio">
+                            Nivaethan is a Software Engineering undergraduate at the University of Sri Jayewardenepura. He is responsible for developing the backend and AI components of the Sentiment Analyzer application, implementing robust sentiment analysis logic, and ensuring seamless integration between the frontend and backend.
+                        </p>
+                        <div class="member-skills">
+                            <span class="skill-tag">Python</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">NLP</span>
+                            <span class="skill-tag">Backend Development</span>
+                        </div>
+                        <div class="member-social">
+                            <a href="http://www.linkedin.com/in/nivaethan-rudraharan-a92507290" class="social-link" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/RudraharanNivaethan" class="social-link" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="mailto:nivaethanrudra6@gmail.com" class="social-link" aria-label="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-photo">
+                        <img src="{{ url_for('static', filename='images/v.png') }}" alt="Alex Chen" class="profile-photo" />
+                    </div>
+                    <div class="member-info">
+                        <h3>Nanthakumar Vepusanan</h3>
+                        <p class="member-role">PM & QA </p>
+                        <p class="member-bio">
+                            Vepusanan is pursuing a Computer Science undergraduate degree at the University of Sri Jayewardenepura. He oversees user flow, testing, and overall project management for this application, overseeing the harmony between different parts of the application for a smooth user experience.
+                        </p>
+                        <div class="member-skills">
+                            <span class="skill-tag">Project Management</span>
+                            <span class="skill-tag">Testing & QA</span>
+                            <span class="skill-tag">UI/UX Flow</span>
+                        </div>
+                        <div class="member-social">
+                            <a href="https://www.linkedin.com/in/vepusanan-nanthakumar-781685284 " class="social-link" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/Vepusanan" class="social-link" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="mailto:vepusanan@gmail.com" class="social-link" aria-label="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="member-photo">
+                       <img src="{{ url_for('static', filename='images/n.jpeg') }}" alt="Alex Chen" class="profile-photo" />
+                    </div>
+                    <div class="member-info">
+                        <h3>Baskaran Natheesan</h3>
+                        <p class="member-role">Frontend Developer</p>
+                        <p class="member-bio">
+                            Natheesan is a CS undergraduate at USJ. He handled the frontend part of the project, delivering a responsive and visually appealing interface that improved usability and user engagement.
+                        </p>
+                        <div class="member-skills">
+                            <span class="skill-tag">UI/UX</span>
+                            <span class="skill-tag">HTML</span>
+                            <span class="skill-tag">CSS</span>
+                        </div>
+                        <div class="member-social">
+                            <a href="http://www.linkedin.com/in/natheesan-baskaran" class="social-link" aria-label="LinkedIn">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                            <a href="https://github.com/Natheesan-CS" class="social-link" aria-label="GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            </a>
+                            <a href="mailto:natheesanbaskaran@gmail.com" class="social-link" aria-label="Email">
+                                <i class="fas fa-envelope"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="section bg-secondary">
+            <div class="container">
+                <div class="text-center mb-5">
+                    <h2>Our Values</h2>
+                    <p class="text-secondary">The principles that guide our work and drive our innovation</p>
+                </div>
+                
+                <div class="grid grid-3">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <h3>Innovation</h3>
+                        <p>We constantly explore new technologies and methodologies to improve sentiment analysis accuracy and user experience.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Collaboration</h3>
+                        <p>We believe in the power of teamwork and open communication to solve complex problems and deliver exceptional results.</p>
+                    </div>
+                    
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Privacy</h3>
+                        <p>We prioritize user privacy and data security, ensuring that your text analysis remains confidential and secure.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% include 'footer.html' %}
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuToggle').addEventListener('click', function() {
+            const navMenu = document.getElementById('navMenu');
+            navMenu.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('navMenu').classList.remove('active');
+                document.getElementById('mobileMenuToggle').classList.remove('active');
+            });
+        });
+
+        // Theme functionality removed - using single light theme
+
+        // Contact form handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            // Simulate form submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert('Thank you for your message! We\'ll get back to you soon.');
+                this.reset();
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
