@@ -141,7 +141,53 @@ source virtualenv/bin/activate
 ```
 
 After activation, your terminal prompt should show (virtualenv) at the beginning.
+
+### 3️⃣ Install Dependencies
+
+With the virtual environment active, install all required packages:
+```bash
+pip install -r requirements.txt
+```
+
+Packages used in this project:
+- Flask
+- nltk
+- textblob
+- matplotlib
+- requests
+- weasyprint
+
+You can also install them individually if needed.
+
+### 4️⃣ Run the Flask App
+
+Make sure the virtual environment is still active. Then run:
+```bash
+python app.py
+```
+
+Open your browser at:
+```bash
+http://127.0.0.1:5000/
+```
+The app is now running locally, using the packages from your isolated environment.
+
+### 5️⃣ Deactivate the Virtual Environment
+
+When finished, deactivate with:
+```bash
+deactivate
+```
+Your terminal will return to the global Python environment.
+
+### 6️⃣ Keep Dependencies Updated
+
+Whenever you install new packages, update requirements.txt:
+```bash
+pip freeze > requirements.txt
+```
 ---
+
 ## Best Practices and Reusable Components
 
 The Sentiment Analysis Web App follows modern software engineering principles to ensure **modularity, maintainability, and scalability**. Key best practices implemented in the project include:
