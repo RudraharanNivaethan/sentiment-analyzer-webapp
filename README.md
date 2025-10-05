@@ -34,7 +34,7 @@ Frontend is built with **HTML and CSS**, while backend uses **Flask, NLTK (VADER
   - CTA button **Start Analyzing** → leads to App page (`app.html`)
   - “Learn More” button → leads to **About Page** (`about.html`)
 
-- **App Page / Text Input Form (`app.html`)**
+- **App Page (`app.html`)**
   - Users can input text for sentiment analysis
   - Submit button triggers **dynamic analysis on the same page** (no separate result page)
   - Shows:
@@ -83,15 +83,6 @@ The Sentiment Analysis Web App is designed as a lightweight and accessible tool 
 
 ---
 
-## Future Improvements
-- Deep Learning Models (e.g., BERT, RoBERTa) for better context handling  
-- Multilingual Support for analyzing text in multiple languages  
-- Domain-Specific Lexicons (finance, healthcare, legal)  
-- Interactive Dashboards for advanced visualization  
-- Database Integration for storing past analyses and generating large-scale reports  
-
----
-
 ## Folder Structure
 ```
 sentiment-analyzer-webapp/
@@ -126,7 +117,31 @@ sentiment-analyzer-webapp/
 │   │
 │   └── report_service.py     # Generates PDF reports using WeasyPrint
 ```
+---
+## Developer Guide / How to Run
+________________________________________
 
+### 1️⃣ Create a Virtual Environment
+Navigate to your project’s root folder:
+
+```bash
+cd sentiment-analyzer-webapp
+python -m venv virtualenv
+```
+### 2️⃣ Activate the Virtual Environment
+
+Windows:
+```bash
+virtualenv\Scripts\activate
+```
+
+Linux / WSL / macOS:
+```bash
+source virtualenv/bin/activate
+```
+
+After activation, your terminal prompt should show (virtualenv) at the beginning.
+---
 ## Best Practices and Reusable Components
 
 The Sentiment Analysis Web App follows modern software engineering principles to ensure **modularity, maintainability, and scalability**. Key best practices implemented in the project include:
@@ -193,3 +208,11 @@ The Sentiment Analysis Web App follows modern software engineering principles to
 ### 12. Lightweight and Fast
 - Lexicon-based models (VADER + TextBlob) enable **quick sentiment analysis**.
 - Suitable for real-time analysis of short to medium text.
+---
+
+## Future Improvements
+- Deep Learning Models (e.g., BERT, RoBERTa) for better context handling  
+- Multilingual Support for analyzing text in multiple languages  
+- Domain-Specific Lexicons (finance, healthcare, legal)  
+- Interactive Dashboards for advanced visualization  
+- Database Integration for storing past analyses and generating large-scale reports  
