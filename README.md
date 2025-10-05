@@ -162,3 +162,34 @@ The Sentiment Analysis Web App follows modern software engineering principles to
 - Allows other developers to quickly replicate the exact environment with:
   ```bash
   pip install -r requirements.txt
+
+### 6. Version Control Hygiene
+- `.gitignore` excludes unnecessary files:
+  - Virtual environment folder
+  - `__pycache__` and `.pyc` files
+  - IDE/editor-specific files
+- Keeps Git history clean and repository lightweight.
+
+### 7. Template Reuse
+- **Header (`header.html`)** and **Footer (`footer.html`)** are included on all pages using Jinja2.
+- Reduces redundant code and ensures consistent layout across pages.
+
+### 8. Clear Naming Conventions
+- Files and functions have descriptive names (`sentiment_service`, `chart_service`, `report_service`).
+- Makes code self-documenting and easier to understand.
+
+### 9. Documentation and Instructions
+- `README.md` provides clear **setup instructions, usage guide, and dependency details**.
+- Makes the project accessible to new developers or users.
+
+### 10. Use of Comments and Docstrings
+- Services and functions include docstrings explaining **purpose, inputs, and outputs**.
+- Enhances code readability and maintainability.
+
+### 11. Clear Data Flow
+- Logical sequence: **Input → NLP Analysis → Chart Generation → PDF Export**.
+- Simplifies debugging, testing, and future enhancements.
+
+### 12. Lightweight and Fast
+- Lexicon-based models (VADER + TextBlob) enable **quick sentiment analysis**.
+- Suitable for real-time analysis of short to medium text.
